@@ -1,0 +1,39 @@
+---
+title: "Load_and_present_img"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Load_and_present_img}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Stereology)
+```
+
+# Initial data loading and visualization
+
+## Load image
+```{r}
+file_path <- system.file("extdata", "sponge3.jpg", package = "Stereology")
+img <- load_img(file_path)
+class(img)
+```
+## Visualize
+```{r}
+# Plot
+p <- plot.stero(img)
+```
+
+## Add grid
+```{r}
+add_grid(p)
+```
+
