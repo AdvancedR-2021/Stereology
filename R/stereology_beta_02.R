@@ -24,20 +24,12 @@ write_data <- function(data, ...) {
 #' @export
 #'
 #' @examples
-save_data <- function(data) {
+save_data <- function(data, grid = NULL) {
   data <- as.data.frame(t(data))
   if (exists("responses")) {
-    responses <<- rbind(responses, data)
+    responses <<- get_dimension(rbind(responses, data), grid)
   } else {
     responses <<- data
-  }
-}
-
-save_plot <- function(p) {
-  if (exists("plot")) {
-    plot <<- plot + p
-  } else {
-    plot <<- p
   }
 }
 
@@ -98,7 +90,7 @@ ster <- function(
     server <- function(input, output, session) {
 
       pointer_data <- shiny::reactive({
-        data <- c("x"=round(input$click$x, 1), "y"=round(input$click$y, 1))
+        data <- c("x"=round(input$click$x, 1), "y"=round(input$click$y, 1), "dimension"=NA)
         data
         })
 
@@ -107,14 +99,13 @@ ster <- function(
         input$click
         responses <- load_data()
         if (!is.null(responses)){
-          point_data <- responses#get_dimension(responses, grid)
-          p <- p + ggplot2::geom_point(data=point_data, ggplot2::aes(x=x, y=y, fill=NULL))
+          return(ggplot2::geom_point(data=responses, ggplot2::aes(x=x, y=y, fill=NULL)))
         }
-        p
+        NULL
       })
 
       output$plot <- shiny::renderPlot({
-        plot_data()
+        p+plot_data()
       })
 
       # NEED --> ADD points to plot such that one can see the progression.
@@ -124,7 +115,7 @@ ster <- function(
 
       # When the Submit button is clicked, save the form data
       shiny::observeEvent(input$click, {
-        save_data(pointer_data())
+        save_data(pointer_data(), grid)
       })
 
       shiny::observeEvent(input$save, {
