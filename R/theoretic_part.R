@@ -1,5 +1,5 @@
 #' @title Theoretic estimations.
-#' @description A function that performs simple linear regression and returns the: intercept, slope, variance, correlation, degrees of freedom as well as a linear regression plot. For more details use: browseVignettes(package = "simplelinreg")
+#' @description 2 functions ('mat.gen()', 'th.i.est()') offering exploretion of theoretical estimates of an image. For more details use: browseVignettes(package = "Stereology")
 #' @param image_path the path where the image is stored.
 #' @param mtr a matrix generated using the function 'mat.gen()'.
 #' @param x the index of the pixel-row to subset the 'mtr'.
