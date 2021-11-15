@@ -16,46 +16,20 @@ load_img <- function(path) {
 
 
 
-#' Plot stero image
+#' Convert image to dataframe
 #'
-#' @param stero object
+#' @param img
+#' @param dimx
+#' @param dimy
 #'
-#' @return A ggplot object visualizing the loaded picture
-#' @export
-#'
-#' @examples plot(img)
-plot.stero <- function(x){
-  df <- as.data.frame(x,wide="c")
-  df$rgb.val <- grDevices::rgb(df[c("c.1", "c.2", "c.3")])
-  p <- ggplot2::ggplot(df,ggplot2::aes(x,y,fill=rgb.val))+
-    ggplot2::geom_raster()+
-    ggplot2::scale_fill_identity()+
-    ggplot2::scale_y_reverse()+
-    ggplot2::theme_void()
-  return(p)
-}
-
-
-
-#' Adds grid to plot (deprecated)
-#'
-#' @param x
-#' @param n
+#'It reduces the size of the data at the same type to a specified dimension (dimx, dimy)
 #'
 #' @return
 #' @export
 #'
 #' @examples
-add_grid <- function(x, n=10){
-  x +
-    ggplot2::geom_hline(yintercept = seq(0, max(x$data$y), length.out=n), color = "red")+
-    ggplot2::geom_vline(xintercept = seq(0, max(x$data$x), length.out=n), color = "red")
-}
-
-file <- system.file("extdata", "sponge3.jpg", package = "Stereology")
-
-
-img_to_table <- function(img){
+img_to_table <- function(img, dimx = 300, dimy=300){
+  img  <- imager::resize(img, dimx, dimy)
   df <- as.data.frame(img,wide="c")
   df$rgb.val <- grDevices::rgb(df[c("c.1", "c.2", "c.3")])
   return(df)
@@ -63,17 +37,27 @@ img_to_table <- function(img){
 
 
 
-make_grid <- function(img_table, n=10){
 
+#' Initiate grid matching image dimensions
+#'
+#' Random start point of grid.
+#' @param img_tabledata
+#' @param n
+#'
+#' @return
+#' @export
+#'
+#' @examples
+make_grid <- function(img_tabledata, n=10){
   # Extract max values
-  mx <- max(img_table$x)
-  my <- max(img_table$y)
+  mx <- max(img_tabledata$x)
+  my <- max(img_tabledata$y)
 
   # Find interval size of grid
   interval <- mx %/% n
 
   # If the interval is larger than y dimension - warn!
-  if (interval >= my) warning("picture's y dimension is too small for this grid. Choose finer grid.")
+  if (interval >= my) stop("picture's y dimension is too small for this grid. Choose finer grid.")
 
   # Find random start point (randomly selected from uniform distribution in lower left cell)
   x_start <- round(runif(n=1, min = 0, max = interval))
@@ -86,18 +70,29 @@ make_grid <- function(img_table, n=10){
   x_intercepts <- ((1:(x_rep))*interval) - x_start
 
   segments <- data.frame(
-    x    = c(x_intercepts,          rep(min(df$x), y_rep)),
-    xend = c(x_intercepts,          rep(max(df$x), y_rep)),
-    y    = c(rep(min(df$y), x_rep), y_intercepts),
-    yend = c(rep(max(df$y), x_rep), y_intercepts)
+    x    = c(x_intercepts,                     rep(min(img_tabledata$x), y_rep)),
+    xend = c(x_intercepts,                     rep(max(img_tabledata$x), y_rep)),
+    y    = c(rep(min(img_tabledata$y), x_rep), y_intercepts),
+    yend = c(rep(max(img_tabledata$y), x_rep), y_intercepts)
   )
 
   return(segments)
 }
 
 
-make_grid_plot <- function(img_table, grid) {
-  ggplot2::ggplot(img_table,ggplot2::aes(x,y,fill=rgb.val))+
+
+
+#' Plot data and grid
+#'
+#' @param img_tabledata
+#' @param grid
+#'
+#' @return
+#' @export
+#'
+#' @examples
+make_grid_plot <- function(img_tabledata, grid) {
+  ggplot2::ggplot(img_tabledata,ggplot2::aes(x,y,fill=rgb.val))+
     ggplot2::geom_raster()+
     ggplot2::scale_fill_identity()+
     ggplot2::geom_segment(data=grid, ggplot2::aes(x=x, xend=xend, y=y, yend=yend, fill=NULL))+
@@ -106,8 +101,21 @@ make_grid_plot <- function(img_table, grid) {
 }
 
 
+
+
+#' Calculate dimensions from coordinate data
+#'
+#' @param df - the image dataframe
+#' @param grid
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_dimension <- function(df, grid){
+  # Just return df if pair not complete yet
   if (nrow(df)%%2) return(df)
+
   dimension <- c()
   df$corrected_x <- df$x
   df$corrected_y <- df$y
@@ -141,24 +149,106 @@ get_dimension <- function(df, grid){
   # Corrections are saved:
   df$x <- df$corrected_x
   df$y <- df$corrected_y
-  df <- df[,c("x", "y", "dimension")]
+  df <- df[,c("x", "y", "dimension", "pair_id")]
   return(df)
   }
 
-# get_dimension(responses, grid)
 
+#' Difference along dimensions
+#'
+#' @param responses_one_dim
+#'
+#' @return
+#' @export
+#' @importFrom magrittr %>%
+#' @import dplyr
+#' @examples
+find_dimensional_difference <- function(responses_one_dim) {
+  if (responses_one_dim$dimension[1]=="x") {
+    summ <-
+      responses_one_dim %>%
+      dplyr::group_by(y, pair_id) %>%
+      dplyr::summarise(diff = max(x)-min(x)) %>%
+      dplyr::ungroup()
+    n <- dplyr::n_distinct(summ$y)
+  } else {
+    summ <-
+      responses_one_dim %>%
+      dplyr::group_by(x, pair_id) %>%
+      dplyr::summarise(diff = max(y)-min(y)) %>%
+      dplyr::ungroup()
+    n <- dplyr::n_distinct(summ$x)
+  }
 
-# Debug
-if (F) {
-  img  <- load_img(file)
-  df   <- img_to_table(img)
-  grid <- make_grid(df)
-
-  make_grid_plot(df, grid)
+  return(c("lines" = n, "difference"=sum(summ$diff)))
 }
 
 
 
 
+
+#' Estimate porosity
+#'
+#' @param responses
+#' @param df
+#'
+#' @return
+#' @export
+#'
+#' @import purrr
+#' @import dplyr
+#' @importFrom magrittr %>%
+#' @examples
+estimate_porosity <- function(responses, df){
+  differences <- split(responses, responses$dimension)
+  differences <- purrr::map(differences, find_dimensional_difference)
+  differences <- dplyr::bind_rows(differences, .id = "dimension")
+
+  differences$dimension_lengths <- c(max(df$x), max(df$y))
+
+  estimate <- mean((differences$difference/differences$dimension_lengths)/differences$lines)
+  return(estimate)
+}
+
+se_prop <- function(proportion, pop_size){
+  return(sqrt(proportion*(1-proportion)/pop_size))
+}
+
+
+
+plot_precision <- function(responses, df){
+  p <- estimate_porosity(responses, df)
+  se <- se_prop(p, nrow(responses))
+
+  ggplot() +
+    geom_segment(aes(x = 1, xend = 1, y = 0, yend = 1)) +
+    geom_pointrange(aes(x = 1, y = p, xmin = 1, xmax = 1, ymin = p-se, ymax = p+se), color = "red", size=1.5) +
+    annotate("text", x = 1, y = p, label = p) +
+    coord_flip() +
+    theme_void()
+}
+
+# bootstrap_responses <- function(responses){
+#
+#   cohort <- unique(responses$pair_id)
+#   resamp <- sample(cohort, size=length(cohort), replace = T)
+#   pairs <- responses$pair_id
+#   boot <- responses[,c("x", "y", "dimension")]
+#
+#
+# }
+
+
+if (F) {
+  path = system.file("extdata", "sponge3.jpg", package = "Stereology")
+  object <- load_img(path)
+  df <- img_to_table(object)
+  grid   <- make_grid(df)
+
+  a = estimate_porosity(responses, df)
+  se_prop(a, nrow(responses))
+
+  plot_precision(responses, df)
+}
 
 

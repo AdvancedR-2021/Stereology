@@ -16,6 +16,10 @@ write_data <- function(data, ...) {
   write.csv(responses, file = "stereology_positions.csv") #paste0(gsub(".*", "", path), "_spateology_positions.csv"))
 }
 
+
+
+
+
 #' Update data frame
 #'
 #' @param data
@@ -33,6 +37,10 @@ save_data <- function(data, grid = NULL) {
   }
 }
 
+
+
+
+
 #' Retrieves curated data
 #'
 #' @return a dataframe of x y positions
@@ -46,7 +54,7 @@ load_data <- function() {
 }
 
 
-#' Beta density estimator
+#' Porosity estimator
 #'
 #' @param path
 #'
@@ -65,7 +73,7 @@ ster <- function(
   if (is.null(object)) {
     object <- load_img(path)
     object <- img_to_table(object)
-    grid   <- make_grid(df)
+    grid   <- make_grid(object)
   } else {
     grid <- make_grid(object)
   }
@@ -80,8 +88,8 @@ ster <- function(
       shiny::fluidPage(
 
         shiny::plotOutput("plot", click = "click"),
-
-        DT::dataTableOutput("responses", width = 300), shiny::tags$hr(),
+#
+#         DT::dataTableOutput("responses", width = 300), shiny::tags$hr(),
 
         shiny::actionButton("save", "save")
 
@@ -90,7 +98,7 @@ ster <- function(
     server <- function(input, output, session) {
 
       pointer_data <- shiny::reactive({
-        data <- c("x"=round(input$click$x, 1), "y"=round(input$click$y, 1), "dimension"=NA)
+        data <- c("x"=round(input$click$x, 1), "y"=round(input$click$y, 1), "dimension"=NA, "pair_id" = NA)
         data
         })
 
@@ -108,10 +116,6 @@ ster <- function(
         p+plot_data()
       })
 
-      # NEED --> ADD points to plot such that one can see the progression.
-      # shiny::observeEvent(input$click, {
-      #   save_data(formData())
-      # })
 
       # When the Submit button is clicked, save the form data
       shiny::observeEvent(input$click, {
@@ -124,21 +128,13 @@ ster <- function(
 
       # Show the previous responses
       # (update with current response when Submit is clicked)
-      output$responses <- DT::renderDataTable({
-        input$click
-        load_data()
-      })
+      # output$responses <- DT::renderDataTable({
+      #   input$click
+      #   load_data()
+      # })
 
       }
   )
 }
 
-if (T){
-  ster()
-}
-#responses
-
-#runGitHub(repo = "JohanLassen/firenoodles")
-
-
-
+#ster()
