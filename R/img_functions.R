@@ -238,13 +238,14 @@ plot_precision <- function(responses, df){
 #
 # }
 
+library(dplyr)
 
 if (F) {
   path = system.file("extdata", "sponge3.jpg", package = "Stereology")
   object <- load_img(path)
   df <- img_to_table(object)
   grid   <- make_grid(df)
-
+  ster()
   a = estimate_porosity(responses, df)
   se_prop(a, nrow(responses))
 
