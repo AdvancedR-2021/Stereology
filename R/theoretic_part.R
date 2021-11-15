@@ -7,7 +7,7 @@
 #' @param d the length used to subset the 'mtr'.
 #' @param trial_s amount of repetitions for the simulation.
 #' @import imager
-#' @example man/examples.R
+#' @example man/th_examples.R
 #' @export
 
 # Turn image to 0 (white)/ 1 (black) matrix
@@ -24,7 +24,7 @@ mat.gen <- function(image_path ) {
 
 # List of mc estimates depending on part of the matrix.
 
-stats <- function (mtr, x, y, d, trial_s) {
+th.i.ests <- function (mtr, x, y, d, trial_s) {
   pmat <- mtr[x:(x+d), y:(y+d)]
   est <- mean(pmat)
   sample_s <- (d+1)^2
