@@ -45,6 +45,7 @@ mat_gen <- function(image_path ) {
 
 
 #' @rdname Theoretic.
+#' @export
 # List of MC estimates depending on part of the matrix.
 
 th_i_ests <- function (mtr, x, y, d, trial_s) {
