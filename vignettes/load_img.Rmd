@@ -39,9 +39,9 @@ add_grid(p)
 
 ## Example of theoretical exploration of the image.
 
-Below there an example of the functions 'mat.gen()' and 'th.i.est()' being used. <br/>
-First the file to be used is loaded onto R, then the function mat.gen() is used. This function turns the image to a matrix of 1s and 0s, which represent in this case whether the area is 'filled' by sponge or air respectively.  As we can see its a 1899 by 1266 matrix. <br/>
-After using the generated matrix (stored in this case as 'mat'), as the first argument of the th.i.ests() function, we start from pixel/entry (x=)10 and add the length(d=) 10. We then do the same for y. As a last argument the function we specify the trial size (trial_s) in order to generate the simulations. The function outputs a list containing: <br/>
+Below, there is an example of the functions 'mat.gen()' and 'th.i.est()' being used. <br/>
+First, the image file to be used is loaded onto R, then the function mat.gen() is used. This function turns the image to a matrix of 1s and 0s, which in this case represent whether the area is 'filled' by sponge or not respectively.  As we can see its a 1899 by 1266 matrix. <br/>
+After using the generated matrix ('mat'), as the first argument of the th.i.ests() function, we start from pixel/entry (x=)10 and add the length(d=) 10. We then do the same for y. As a last argument in the function, we specify the trial size (trial_s) in order to generate the binomial simulations. The function then outputs a list containing: <br/>
 
 - the part of the matrix we subsetted for,
 - the probability (p) estimated using this sub-matrix,
