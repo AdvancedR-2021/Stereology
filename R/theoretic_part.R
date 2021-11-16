@@ -1,5 +1,5 @@
 #' @title Theoretic estimations.
-#' @description 2 functions ('mat.gen()' and 'th.i.est()') offering exploretion of theoretical estimates of an image. For more details use: browseVignettes(package = "Stereology")
+#' @description 2 functions ('mat.gen()' and 'th.i.est()') offering exploration of theoretical estimates of an image. For more details use: browseVignettes(package = "Stereology")
 #' @param image_path the path where the image is stored.
 #' @param mtr a matrix generated using the function 'mat.gen()'.
 #' @param x the index of the pixel-row to start subsetting the 'mtr'.
@@ -21,7 +21,7 @@ mat.gen <- function(image_path ) {
   return(invisible(mat))
 }
 
-# List of mc estimates depending on part of the matrix.
+# List of MC estimates depending on part of the matrix.
 
 th.i.ests <- function (mtr, x, y, d, trial_s) {
   pmat <- mtr[x:(x+d), y:(y+d)]
