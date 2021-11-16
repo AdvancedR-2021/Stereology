@@ -3,5 +3,6 @@
 S3method(plot,stero)
 export(add_grid)
 export(load_img)
-export(mat.gen)
+export(mat_gen)
+export(th_i_ests)
 import(imager)
