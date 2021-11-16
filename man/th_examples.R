@@ -4,10 +4,10 @@
 # path <- "~/images.png"
 path <- system.file('extdata/sponge3.jpg',package='Stereology')
 
-# Applying mat.gen().
+# Applying mat_gen().
 mat <- mat_gen(path)
 
-# Applying thr.i.ests()
+# Applying th_i_ests()
 est_list <- th_i_ests(mtr = mat, x = 10, y = 10, d= 10, trial_s = 1000)
 est_list
 
