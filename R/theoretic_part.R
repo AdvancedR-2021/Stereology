@@ -21,15 +21,14 @@
 #'   - the average of the p_hats generated through simulations, and
 #'   - the variance of those p_hats.
 
-#' @name Theoretic.
+#' @name Theoretic
 NULL
 #> NULL
 
+
+
+#' @rdname Theoretic
 #' @export
-
-
-
-#' @rdname Theoretic.
 # Turn image to 0 (white)/ 1 (black) matrix
 
 mat_gen <- function(image_path ) {
@@ -44,7 +43,7 @@ mat_gen <- function(image_path ) {
 
 
 
-#' @rdname Theoretic.
+#' @rdname Theoretic
 #' @export
 # List of MC estimates depending on part of the matrix.
 
