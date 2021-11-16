@@ -2,16 +2,15 @@
 #' @description 2 functions ('mat.gen()' and 'th.i.est()') offering exploretion of theoretical estimates of an image. For more details use: browseVignettes(package = "Stereology")
 #' @param image_path the path where the image is stored.
 #' @param mtr a matrix generated using the function 'mat.gen()'.
-#' @param x the index of the pixel-row to subset the 'mtr'.
-#' @param x the index of the pixel-column to subset the 'mtr'.
-#' @param d the length used to subset the 'mtr'.
+#' @param x the index of the pixel-row to start subsetting the 'mtr'.
+#' @param y the index of the pixel-column to start subsetting the 'mtr'.
+#' @param d the length of pixels used to subset the 'mtr'.
 #' @param trial_s amount of repetitions for the simulation.
 #' @import imager
 #' @example man/th_examples.R
 #' @export
 
 # Turn image to 0 (white)/ 1 (black) matrix
-
 
 mat.gen <- function(image_path ) {
   im <- load.image(image_path)
