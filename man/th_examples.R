@@ -5,10 +5,10 @@
 path <- system.file('extdata/sponge3.jpg',package='Stereology')
 
 # Applying mat.gen().
-mat <- mat.gen(path)
+mat <- mat_gen(path)
 
 # Applying thr.i.ests()
-est.list <- th.i.ests(mtr = mat, x = 10, y = 10, d= 10, trial_s = 1000)
-est.list
+est_list <- th_i_ests(mtr = mat, x = 10, y = 10, d= 10, trial_s = 1000)
+est_list
 
 # For more details use: browseVignettes(package = "Stereology").
