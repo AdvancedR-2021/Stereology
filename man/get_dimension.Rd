@@ -17,6 +17,3 @@ get_dimension(df, grid)
 \description{
 Calculate dimensions from coordinate data
 }
-\examples{
-(EMPTY)
-}
