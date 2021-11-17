@@ -19,6 +19,3 @@ img_to_table(img, dimx = 300, dimy = 300)
 \description{
 Convert image to dataframe
 }
-\examples{
-(EMPTY)
-}
