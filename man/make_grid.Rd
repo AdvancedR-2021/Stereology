@@ -17,6 +17,3 @@ make_grid(img_tabledata, n = 10)
 \description{
 Random start point of grid.
 }
-\examples{
-(EMPTY)
-}
