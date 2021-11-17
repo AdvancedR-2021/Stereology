@@ -15,7 +15,3 @@ A stero object
 \description{
 Load image
 }
-\examples{
-img <- load_img(DATA_TO_BE_ADDED)
-
-}
