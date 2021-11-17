@@ -8,7 +8,9 @@
 #' @return a csv file saved in working folder
 #' @export
 #'
-#' @examples None - to be used in run_spat function
+#'
+
+# @examples None - to be used in run_spat function
 
 write_data <- function(data, ...) {
 
@@ -27,7 +29,10 @@ write_data <- function(data, ...) {
 #' @return
 #' @export
 #'
-#' @examples (EMPTY)
+#'
+
+
+# @examples (EMPTY)
 
 save_data <- function(data, grid = NULL) {
   data <- as.data.frame(t(data))
@@ -47,7 +52,10 @@ save_data <- function(data, grid = NULL) {
 #' @return a dataframe of x y positions
 #' @export
 #'
-#' @examples (EMPTY)
+#'
+
+
+# @examples (EMPTY)
 
 load_data <- function() {
   if (exists("responses")) {
@@ -63,8 +71,11 @@ load_data <- function() {
 #' @return Data table with locations of crossings
 #' @export
 #'
-#' @examples run_spat()
 #'
+
+
+# @examples run_spat()
+
 ster <- function(
   object = NULL,
   path = system.file("extdata", "sponge3.jpg", package = "Stereology"),
