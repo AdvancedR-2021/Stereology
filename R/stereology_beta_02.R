@@ -90,6 +90,7 @@ ster <- function(
         shiny::plotOutput("plot", click = "click"),
 #
 #         DT::dataTableOutput("responses", width = 300), shiny::tags$hr(),
+        shiny::textOutput("metric"),
 
         shiny::actionButton("save", "save")
 
@@ -116,6 +117,18 @@ ster <- function(
         p+plot_data()
       })
 
+      output$text <- renderText({
+        input$click
+        responses <- load_data()
+        if(is.null(responses)|nrow(responses)<2){
+          result = "no estimate yet"
+        }else{
+          a = estimate_porosity(responses, object)
+          se = se_prop(a, nrow(responses))
+          result = paste("porosity:", a, "SE:", se)
+        }
+        result
+        })
 
       # When the Submit button is clicked, save the form data
       shiny::observeEvent(input$click, {
