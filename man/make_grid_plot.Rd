@@ -17,6 +17,3 @@ make_grid_plot(img_tabledata, grid)
 \description{
 Plot data and grid
 }
-\examples{
-(EMPTY)
-}
