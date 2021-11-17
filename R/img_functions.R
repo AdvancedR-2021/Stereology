@@ -5,8 +5,11 @@
 #' @return A stero object
 #' @export
 #'
-#' @examples img <- load_img(DATA_TO_BE_ADDED)
 #'
+#'
+
+# @examples img <- load_img(DATA_TO_BE_ADDED)
+
 load_img <- function(path) {
   img <- imager::load.image(path)
   class(img) <- c("stero", class(img))
@@ -27,7 +30,9 @@ load_img <- function(path) {
 #' @return
 #' @export
 #'
-#' @examples (EMPTY)
+
+
+# @examples (EMPTY)
 
 img_to_table <- function(img, dimx = 300, dimy=300){
   img  <- imager::resize(img, dimx, dimy)
@@ -48,7 +53,9 @@ img_to_table <- function(img, dimx = 300, dimy=300){
 #' @return
 #' @export
 #'
-#' @examples (EMPTY)
+#'
+
+# @examples (EMPTY)
 
 make_grid <- function(img_tabledata, n=10){
   # Extract max values
@@ -92,7 +99,9 @@ make_grid <- function(img_tabledata, n=10){
 #' @return
 #' @export
 #'
-#' @examples (EMPTY)
+#'
+
+# @examples (EMPTY)
 
 make_grid_plot <- function(img_tabledata, grid) {
   ggplot2::ggplot(img_tabledata,ggplot2::aes(x,y,fill=rgb.val))+
@@ -114,7 +123,9 @@ make_grid_plot <- function(img_tabledata, grid) {
 #' @return
 #' @export
 #'
-#' @examples (EMPTY)
+#'
+
+# @examples (EMPTY)
 
 get_dimension <- function(df, grid){
   # Just return df if pair not complete yet
@@ -166,9 +177,9 @@ get_dimension <- function(df, grid){
 #' @export
 #' @importFrom magrittr %>%
 #' @import dplyr
-#' @examples (EMPTY)
+#'
 
-
+# @examples (EMPTY)
 
 find_dimensional_difference <- function(responses_one_dim) {
   if (responses_one_dim$dimension[1]=="x") {
@@ -205,7 +216,9 @@ find_dimensional_difference <- function(responses_one_dim) {
 #' @import purrr
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @examples (EMPTY)
+#'
+
+# @examples (EMPTY)
 
 estimate_porosity <- function(responses, df){
   differences <- split(responses, responses$dimension)
