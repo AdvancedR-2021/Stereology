@@ -27,7 +27,8 @@ write_data <- function(data, ...) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 save_data <- function(data, grid = NULL) {
   data <- as.data.frame(t(data))
   if (exists("responses")) {
@@ -46,7 +47,8 @@ save_data <- function(data, grid = NULL) {
 #' @return a dataframe of x y positions
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 load_data <- function() {
   if (exists("responses")) {
     responses
