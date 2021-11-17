@@ -7,11 +7,16 @@
 estimate_porosity(responses, df)
 }
 \arguments{
-\item{df}{}
+\item{responses}{(DESCRIPTION)}
+
+\item{df}{(DESCRIPTION)}
 }
 \value{
 
 }
 \description{
 Estimate porosity
+}
+\examples{
+(EMPTY)
 }
