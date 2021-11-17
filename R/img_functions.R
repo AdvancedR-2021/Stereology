@@ -18,8 +18,8 @@ load_img <- function(path) {
 
 #' Convert image to dataframe
 #'
-#' @param img
-#' @param dimx
+#' @param img (DESCRIPTION)
+#' @param dimx (DESCRIPTION)
 #' @param dimy
 #'
 #'It reduces the size of the data at the same type to a specified dimension (dimx, dimy)
@@ -42,8 +42,8 @@ img_to_table <- function(img, dimx = 300, dimy=300){
 #' Initiate grid matching image dimensions
 #'
 #' Random start point of grid.
-#' @param img_tabledata
-#' @param n
+#' @param img_tabledata (DESCRIPTION)
+#' @param n (DESCRIPTION)
 #'
 #' @return
 #' @export
@@ -86,8 +86,8 @@ make_grid <- function(img_tabledata, n=10){
 
 #' Plot data and grid
 #'
-#' @param img_tabledata
-#' @param grid
+#' @param img_tabledata (DESCRIPTION)
+#' @param grid (DESCRIPTION)
 #'
 #' @return
 #' @export
@@ -108,8 +108,8 @@ make_grid_plot <- function(img_tabledata, grid) {
 
 #' Calculate dimensions from coordinate data
 #'
-#' @param df - the image dataframe
-#' @param grid
+#' @param df The image dataframe
+#' @param grid (DESCRIPTION)
 #'
 #' @return
 #' @export
@@ -160,7 +160,7 @@ get_dimension <- function(df, grid){
 
 #' Difference along dimensions
 #'
-#' @param responses_one_dim
+#' @param responses_one_dim (DESCRIPTION)
 #'
 #' @return
 #' @export
@@ -196,8 +196,8 @@ find_dimensional_difference <- function(responses_one_dim) {
 
 #' Estimate porosity
 #'
-#' @param responses
-#' @param df
+#' @param responses (DESCRIPTION)
+#' @param df (DESCRIPTION)
 #'
 #' @return
 #' @export
