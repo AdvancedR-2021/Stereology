@@ -12,6 +12,3 @@ a dataframe of x y positions
 \description{
 Retrieves curated data
 }
-\examples{
-(EMPTY)
-}
