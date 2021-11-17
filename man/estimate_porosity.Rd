@@ -17,6 +17,3 @@ estimate_porosity(responses, df)
 \description{
 Estimate porosity
 }
-\examples{
-(EMPTY)
-}
