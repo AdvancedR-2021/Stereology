@@ -17,6 +17,3 @@ a csv file saved in working folder
 \description{
 Write ster data
 }
-\examples{
-None - to be used in run_spat function
-}
