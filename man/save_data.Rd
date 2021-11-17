@@ -15,6 +15,3 @@ save_data(data, grid = NULL)
 \description{
 Update data frame
 }
-\examples{
-(EMPTY)
-}
