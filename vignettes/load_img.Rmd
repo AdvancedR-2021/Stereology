@@ -23,21 +23,21 @@ library(Stereology)
 
 ## Load image
 ```{r}
-file_path <- system.file("extdata", "sponge3.jpg", package = "Stereology")
-img <- load_img(file_path)
-class(img)
+#file_path <- system.file("extdata", "sponge3.jpg", package = "Stereology")
+#img <- load_img(file_path)
+#class(img)
 ```
 ## Visualize
 ```{r}
 # Plot
-p <- plot.stero(img)
-p
+#p <- plot.stero(img)
+#p
 ```
 
 ## Add grid
 ```{r}
-p <- add_grid(p)
-p
+#p <- add_grid(p)
+#p
 ```
 
 
