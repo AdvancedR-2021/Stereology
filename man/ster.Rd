@@ -19,7 +19,3 @@ Data table with locations of crossings
 \description{
 Porosity estimator
 }
-\examples{
-run_spat()
-
-}
