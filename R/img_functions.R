@@ -27,7 +27,8 @@ load_img <- function(path) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 img_to_table <- function(img, dimx = 300, dimy=300){
   img  <- imager::resize(img, dimx, dimy)
   df <- as.data.frame(img,wide="c")
@@ -47,7 +48,8 @@ img_to_table <- function(img, dimx = 300, dimy=300){
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 make_grid <- function(img_tabledata, n=10){
   # Extract max values
   mx <- max(img_tabledata$x)
@@ -90,7 +92,8 @@ make_grid <- function(img_tabledata, n=10){
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 make_grid_plot <- function(img_tabledata, grid) {
   ggplot2::ggplot(img_tabledata,ggplot2::aes(x,y,fill=rgb.val))+
     ggplot2::geom_raster()+
@@ -111,7 +114,8 @@ make_grid_plot <- function(img_tabledata, grid) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples (EMPTY)
+
 get_dimension <- function(df, grid){
   # Just return df if pair not complete yet
   if (nrow(df)%%2) return(df)
@@ -162,7 +166,10 @@ get_dimension <- function(df, grid){
 #' @export
 #' @importFrom magrittr %>%
 #' @import dplyr
-#' @examples
+#' @examples (EMPTY)
+
+
+
 find_dimensional_difference <- function(responses_one_dim) {
   if (responses_one_dim$dimension[1]=="x") {
     summ <-
@@ -198,7 +205,8 @@ find_dimensional_difference <- function(responses_one_dim) {
 #' @import purrr
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @examples
+#' @examples (EMPTY)
+
 estimate_porosity <- function(responses, df){
   differences <- split(responses, responses$dimension)
   differences <- purrr::map(differences, find_dimensional_difference)
