@@ -1,6 +1,7 @@
 ---
 title: "Load_and_present_img"
 output: rmarkdown::html_vignette
+runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Load_and_present_img}
   %\VignetteEngine{knitr::rmarkdown}
@@ -30,12 +31,15 @@ class(img)
 ```{r}
 # Plot
 p <- plot.stero(img)
+p
 ```
 
 ## Add grid
 ```{r}
-add_grid(p)
+p <- add_grid(p)
+p
 ```
+
 
 ## Example of theoretical exploration of the image.
 
@@ -66,4 +70,17 @@ est_list <- th_i_ests(mtr = mat, x = 10, y = 10, d= 10, trial_s = 1000)
 est_list
 
 ```
+
+
+
+# Stereology
+
+Let's try finding some points in a sponge
+```{r}
+ster()
+```
+
+
+
+
 
