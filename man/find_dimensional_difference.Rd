@@ -15,6 +15,3 @@ find_dimensional_difference(responses_one_dim)
 \description{
 Difference along dimensions
 }
-\examples{
-(EMPTY)
-}
