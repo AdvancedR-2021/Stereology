@@ -81,7 +81,7 @@ a$bw_image
 # imsplit(path, "x", 10) %>% plot()
 
 # Applying th_i_ests().
-est_l <- th_i_ests(mtr = a$matrix, x = 400, y = 100, dx= 10, dy = 15, trial_s = 10000)
+est_l <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, dx= 10, dy = 15, trial_s = 10000)
 
 # Print just mean_p_hat and variance_p_hat.
 est_l$mean_p_hat
