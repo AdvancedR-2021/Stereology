@@ -28,6 +28,7 @@ bw_mat <- function(image_path, thr = .5) {
   mat <- t_gim %>%
     as.matrix()
   mat[mat==TRUE] = 1
+  class(mat) <- c("bw_img", "matrix", "array")
   im_l <- list(img_mat = mat,
                bw_img = plot(t_gim))
   return((im_l))
@@ -54,7 +55,9 @@ bw_mat <- function(image_path, thr = .5) {
 # List of MC estimates depending on part of the matrix.
 
 th_i_ests <- function (mtr, x, y, dx, dy, trial_s) {
-  #if (mtr ) stop("Y should be numeric.")
+  if (!is(mtr, "bw_img") ) stop("The matrix needs be generated using the bw_img() function.")
+  if (x+dx > nrow(mtr)) stop("The matrix dimensions have been exceeded.")
+  if (y+dy > ncol(mtr)) stop("Tha matrix dimensions have been exceeded.")
   pmat <- mtr[x:(x+dx), y:(y+dy)]
   est <- mean(pmat)
   sample_s <- (dx+1)*(dy+1)
