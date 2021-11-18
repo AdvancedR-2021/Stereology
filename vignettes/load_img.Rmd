@@ -19,26 +19,15 @@ knitr::opts_chunk$set(
 library(Stereology)
 ```
 
-# Initial data loading and visualization
 
-## Load image
+## Stereology
+
+Let's try finding some points in a sponge
 ```{r}
-#file_path <- system.file("extdata", "sponge3.jpg", package = "Stereology")
-#img <- load_img(file_path)
-#class(img)
-```
-## Visualize
-```{r}
-# Plot
-#p <- plot.stero(img)
-#p
+ster()
 ```
 
-## Add grid
-```{r}
-#p <- add_grid(p)
-#p
-```
+
 ## Theoretic exploration of an image.
 
 The functions 'bw_mat()' and 'th_i_est()' are meant to be used to give the user theoretic estimators based on an image.  <br/>
@@ -132,13 +121,6 @@ tab
 #est_l2a$variance_p_hat
 ```
 
-
-# Stereology
-
-Let's try finding some points in a sponge
-```{r}
-ster()
-```
 
 
 
