@@ -1,6 +1,16 @@
 
+#'Launch point estimator app
+#'
+#'Running this function launches an interactive app that allows you to
+#'opload an image, plot points on it, select relevant points and then
+#'estimate properties based on that
+#'
 #'
 #'@import shiny
+#'
+#'@return Launches app
+#'
+#'
 #'@export
 #'
 #'
@@ -224,8 +234,8 @@ shinyApp(ui = ui, server = server)
 
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
-# add shiny fileinput
-# add full data frame showing selected points in seperate tab
+# reduce filesize
+#
 
 
 
