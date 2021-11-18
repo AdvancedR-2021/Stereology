@@ -42,7 +42,14 @@ ui <- fluidPage(
   ),
 
 
-  mainPanel(plotlyOutput("plot",width = "100%",height="100%"))
+  mainPanel(tabsetPanel(
+
+  tabPanel("Image",plotlyOutput("plot",width = "100%",height="100%")),
+
+  tabPanel("Points",tableOutput("table"))
+
+  )
+  )
 
 
 ))
@@ -144,9 +151,7 @@ estimate <- eventReactive(input$estimate,{
   n_points <- table_points()
 
 
- #P_p <- table_points()[1]/(x_points*y_points)
-
-  n_points/(x_points*y_points) ######## Check format of this
+  n_points/(x_points*y_points) ######## fraction of points selected
 
 })
 
@@ -158,7 +163,18 @@ output$P_p <- renderText({
   paste("Point based estimate:",k1)
 })
 
+##
 
+output$table <- renderTable({
+
+  table <- as.data.frame(df)
+  colnames(table) <- c("Point_ID","x","y")
+  table
+
+
+
+
+  })
 
 
 
@@ -171,7 +187,6 @@ shinyApp(ui = ui, server = server)
 
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
-# Create eventreactive inputs
 # use event_data(event="plotly_click")
 # try plotly.restyle() or plotly.reac() to make updating plot faster
 # use partial_bundle to reduce filesize
@@ -180,4 +195,5 @@ shinyApp(ui = ui, server = server)
 
 
 
-plotly_example("shiny","event_data")
+#plotly_example("shiny","event_data")
+
