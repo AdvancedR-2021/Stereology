@@ -31,7 +31,7 @@ bw_mat <- function(image_path, thr = .5) {
   class(mat) <- c("bw_img", "matrix", "array")
   im_l <- list(img_mat = mat,
                bw_img = plot(t_gim))
-  return((im_l))
+  return(im_l)
 }
 
 
@@ -60,7 +60,8 @@ th_i_ests <- function (mtr, x, y, dx, dy, trial_s) {
   if (y+dy > ncol(mtr)) stop("Tha matrix dimensions have been exceeded.")
   pmat <- mtr[x:(x+dx), y:(y+dy)]
   est <- mean(pmat)
-  sample_s <- (dx+1)*(dy+1)
+  #sample_s <- (dx+1)*(dy+1)
+  sample_s <- nrow(mtr)*ncol(mtr)
   sims <- matrix(rbinom(trial_s*sample_s, size=1, prob = est),
                  nrow = trial_s,
                  ncol = sample_s)
