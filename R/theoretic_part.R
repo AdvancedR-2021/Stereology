@@ -28,9 +28,9 @@ bw_mat <- function(image_path, thr = .5) {
   mat <- t_gim %>%
     as.matrix()
   mat[mat==TRUE] = 1
-  im_l <- list(matrix = mat,
+  im_l <- list(img_mat = mat,
                bw_img = plot(t_gim))
-  return(invisible(im_l))
+  return((im_l))
 }
 
 
@@ -54,6 +54,7 @@ bw_mat <- function(image_path, thr = .5) {
 # List of MC estimates depending on part of the matrix.
 
 th_i_ests <- function (mtr, x, y, dx, dy, trial_s) {
+  #if (mtr ) stop("Y should be numeric.")
   pmat <- mtr[x:(x+dx), y:(y+dy)]
   est <- mean(pmat)
   sample_s <- (dx+1)*(dy+1)
