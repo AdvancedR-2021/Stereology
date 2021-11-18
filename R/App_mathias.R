@@ -9,6 +9,9 @@ ui <- fluidPage(
   theme=shinythemes::shinytheme("darkly"),
   sidebarLayout(sidebarPanel(
 
+  # add fileinput
+  fileInput("image_path","Insert path to image",accept=c(".jpg",".png")),
+
   # Add slider to choose size of points
   sliderInput("size","Select size of points",min=1,max=10,value=5),
 
@@ -19,32 +22,36 @@ ui <- fluidPage(
   sliderInput("alpha","Select transparency",min=0,max=1,value=1),
 
   # Add slider inputs to select number of points
-  sliderInput('ny_points', 'Select number of rows', min = 1, max = 20,value=10),
-  sliderInput('nx_points', 'Select number of coloums', min = 1, max = 20,value=10),
+  sliderInput('ny_points', 'Select number of rows', min = 1, max = 20,value=7),
+  sliderInput('nx_points', 'Select number of coloums', min = 1, max = 20,value=7),
 
   # Add actionbutton to update plot
   actionButton("run", "Initiate plot"),
+
 
   # Add outputs
 
   # Text box output
   verbatimTextOutput("click"),
 
-  # Add dataframe with selected points
+  # Add text with selected points
   textOutput("npoints"),
 
   # Add actionbutton to calculate estimate
   actionButton("estimate", "Estimate"),
 
-  # Add estimate
-  textOutput("P_p")
+  # Add text with estimate
+  textOutput("P_p"),
+
+  # Add actionbutton to remove currently selected point
+  actionButton("undo","Unselect point")
 
   ),
 
 
   mainPanel(tabsetPanel(
 
-  tabPanel("Image",plotlyOutput("plot",width = "100%",height="100%")),
+  tabPanel("Image",plotlyOutput("plot",width = "600px",height="600px")),
 
   tabPanel("Points",tableOutput("table"))
 
@@ -75,7 +82,9 @@ server <- function(input, output, session){
   #Load image
   img <- reactive({
 
-    EBImage::readImage("C:/Users/mathi/Desktop/Advanced R/Sterology/inst/extdata/sponge3.jpg")
+    path <- ifelse(is.null(input$image_path),"C:/Users/mathi/Desktop/Advanced R/Sterology/inst/extdata/sponge3.jpg",input$image_path)
+
+    EBImage::readImage(path)
   })
 
   # Create grid of points
@@ -97,7 +106,7 @@ server <- function(input, output, session){
 
     # Create plotly object of image and add points to it
      isolate(plotly_img()) %>%
-      add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),opacity=input$alpha)
+      add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),opacity=input$alpha,showlegend=FALSE)
 
 
   })
@@ -115,9 +124,9 @@ server <- function(input, output, session){
   })
 
 
-  df<-  matrix(0,nrow = 1,ncol = 3) # initiate data frame. first col is point nr, second i x coordinate and thirs is y coord.
+  df<-  matrix(0,nrow = 1,ncol = 3) ## matrix with all selected points. first col is point nr, second i x coordinate and thirs is y coord.
 
-  # Create reactive function to save information from click events in data frame
+  # Create reactive function to save information from click events in matrix and return total number of points selected
 
 table_points <- reactive({
 
@@ -151,7 +160,7 @@ estimate <- eventReactive(input$estimate,{
   n_points <- table_points()
 
 
-  n_points/(x_points*y_points) ######## fraction of points selected
+  n_points/(x_points*y_points) ######## fraction of selected points of total points
 
 })
 
@@ -163,18 +172,27 @@ output$P_p <- renderText({
   paste("Point based estimate:",k1)
 })
 
-##
+## Create table with all data about all selected points in seperate tab
 
 output$table <- renderTable({
 
   table <- as.data.frame(df)
   colnames(table) <- c("Point_ID","x","y")
-  table
-
-
+  table[-1,]
 
 
   })
+
+## Function to remove selected points
+
+# remove_point <- eventReactive(input$undo,{
+#
+#   last_row <- nrow(df)
+#
+#   df <<- df[-last_row,]
+#
+#
+# })
 
 
 
@@ -187,9 +205,6 @@ shinyApp(ui = ui, server = server)
 
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
-# use event_data(event="plotly_click")
-# try plotly.restyle() or plotly.reac() to make updating plot faster
-# use partial_bundle to reduce filesize
 # add shiny fileinput
 # add full data frame showing selected points in seperate tab
 
