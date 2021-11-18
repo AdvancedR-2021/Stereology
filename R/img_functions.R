@@ -26,7 +26,7 @@ load_img <- function(path) {
 #' @examples plot(img)
 plot.stero <- function(x){
   df <- as.data.frame(x,wide="c")
-  df <- dplyr::mutate(df, rgb.val=rgb(c.1,c.2,c.3))
+  df$rgb.val <- grDevices::rgb(df[c("c.1", "c.2", "c.3")])
   p <- ggplot2::ggplot(df,ggplot2::aes(x,y,fill=rgb.val))+
     ggplot2::geom_raster()+
     ggplot2::scale_fill_identity()+
@@ -48,7 +48,7 @@ plot.stero <- function(x){
 #' @examples
 add_grid <- function(x, n=10){
   x +
-    ggplot2::geom_hline(yintercept = seq(0, max(p$data$y), length.out=n), color = "red")+
-    ggplot2::geom_vline(xintercept = seq(0, max(p$data$x), length.out=n), color = "red")
+    ggplot2::geom_hline(yintercept = seq(0, max(x$data$y), length.out=n), color = "red")+
+    ggplot2::geom_vline(xintercept = seq(0, max(x$data$x), length.out=n), color = "red")
 }
 
