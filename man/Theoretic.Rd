@@ -2,18 +2,20 @@
 % Please edit documentation in R/theoretic_part.R
 \name{Theoretic}
 \alias{Theoretic}
-\alias{mat_gen}
+\alias{bw_mat}
 \alias{th_i_ests}
 \title{Theoretic estimations.}
 \usage{
-mat_gen(image_path)
+bw_mat(image_path, thr = 0.5)
 
-th_i_ests(mtr, x, y, d, trial_s)
+th_i_ests(mtr, x, y, dx, dy, trial_s)
 }
 \arguments{
 \item{image_path}{The path where the image is stored.}
 
-\item{mtr}{A matrix generated using the function 'mat.gen()'.}
+\item{thr}{The threshold used to turn the image in black and white. The default value is 0.5.}
+
+\item{mtr}{A matrix generated using the function 'bw_mat()'.}
 
 \item{x}{Numeric variable. The index of the pixel-row to start subsetting the
 'mtr'.}
@@ -21,23 +23,28 @@ th_i_ests(mtr, x, y, d, trial_s)
 \item{y}{Numeric variable. The index of the pixel-column to start subsetting
 the 'mtr'.}
 
-\item{d}{Numeric variable. the length of pixels used to subset the 'mtr'.}
+\item{dx}{Numeric variable. The length of pixels used to subset the 'mtr' on the x-axis.}
+
+\item{dy}{Numeric variable. The length of pixels used to subset the 'mtr' on the y-axis.}
 
 \item{trial_s}{Numeric variable. The amount of repetitions used for the
 simulation.}
 }
 \value{
-The function 'mat_gen()' outputs the matrix that represents the image
-  used as input.
-  The function 'th_i_est()' a list containing:
-  - part of the original matrix
-  - the probability (p) estimated using this sub-matrix,
-  - the average of the p_hats generated through simulations, and
-  - the variance of those p_hats.
+The function 'bw_mat()' returns a list containing: \cr
+  1) the matrix that represents the black and white version of the image that
+  was used as input, and \cr
+  2) the plot of the black and white version of the image.
+
+The function 'th_i_est()' returns a list containing: \cr
+  1) submatrix: part of the original matrix \cr
+  2) p: the probability (p) estimated using this sub-matrix, \cr
+  3) mean_p_hat: the average of the p_hats generated through simulations, and \cr
+  4) variance_p_hat: the variance of those p_hats.
 }
 \description{
-2 functions ('mat_gen()' and 'th_i_est()') offering exploration
-  of theoretical estimates of an image. For more details use:
+2 functions: 'bw_mat()' and 'th_i_est()', offering exploration of
+  theoretical estimates of an image. For more details use: \cr
   browseVignettes(package = "Stereology")
 }
 \examples{
@@ -47,12 +54,12 @@ The function 'mat_gen()' outputs the matrix that represents the image
 # path <- "~/images.png"
 path <- system.file('extdata/sponge3.jpg',package='Stereology')
 
-# Applying mat_gen().
-mat <- mat_gen(path)
+# Applying bw_mat().
+a <- bw_mat(path, .5)
 
 # Applying th_i_ests()
-est_list <- th_i_ests(mtr = mat, x = 10, y = 10, d= 10, trial_s = 1000)
-est_list
+est_l <- th_i_ests(mtr = a$matrix, x = 400, y = 100, dx = 10, dy = 10,  trial_s = 1000)
+est_l
 
 # For more details use: browseVignettes(package = "Stereology").
 }
