@@ -10,7 +10,8 @@ ui <- fluidPage(
   sidebarLayout(sidebarPanel(
 
   # add fileinput
-  fileInput("image_path","Insert path to image",accept=c(".jpg",".png")),
+  fileInput("image","Opload image",accept=c(".jpg",".png")),
+  #textInput("path","Insert path to image"),
 
   # Add slider to choose size of points
   sliderInput("size","Select size of points",min=1,max=10,value=5),
@@ -19,14 +20,14 @@ ui <- fluidPage(
   selectInput('color', 'Select color of points', choices = c("Blue", "Red","Black","White")),
 
   # Add transparency option
-  sliderInput("alpha","Select transparency",min=0,max=1,value=1),
+  #sliderInput("alpha","Select transparency",min=0,max=1,value=1),
 
   # Add slider inputs to select number of points
   sliderInput('ny_points', 'Select number of rows', min = 1, max = 20,value=7),
   sliderInput('nx_points', 'Select number of coloums', min = 1, max = 20,value=7),
 
   # Add actionbutton to update plot
-  actionButton("run", "Initiate plot"),
+  actionButton("run", "Update"),
 
 
   # Add outputs
@@ -82,9 +83,19 @@ server <- function(input, output, session){
   #Load image
   img <- reactive({
 
-    path <- ifelse(is.null(input$image_path),"C:/Users/mathi/Desktop/Advanced R/Sterology/inst/extdata/sponge3.jpg",input$image_path)
+    default <-system.file("extdata", "sponge3.jpg", package = "Stereology")
 
-    EBImage::readImage(path)
+    path_df <- input$image
+
+    #ifelse(is.null(input$image), EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology")),input$image)
+
+    #EBImage::readImage("C:/Users/mathi/Desktop/Advanced R/Sterology/inst/extdata/sponge3.jpg")
+
+    if(!is.data.frame(input$image)){EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology"))
+      } else {EBImage::readImage(path_df$datapath)}
+
+
+
   })
 
   # Create grid of points
@@ -106,7 +117,7 @@ server <- function(input, output, session){
 
     # Create plotly object of image and add points to it
      isolate(plotly_img()) %>%
-      add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),opacity=input$alpha,showlegend=FALSE)
+      add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),showlegend=FALSE)
 
 
   })
@@ -160,7 +171,7 @@ estimate <- eventReactive(input$estimate,{
   n_points <- table_points()
 
 
-  n_points/(x_points*y_points) ######## fraction of selected points of total points
+  round(n_points/(x_points*y_points),4) ######## fraction of selected points of total points
 
 })
 
