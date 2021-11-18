@@ -3,7 +3,17 @@
 #'
 #'Running this function launches an interactive app that allows you to
 #'opload an image, plot points on it, select relevant points and then
-#'estimate properties based on that
+#'estimate properties based on that. Once the app is open press the "Update"
+#'button to plot the image and points. If no image a default image will be
+#'plotted. Please be aware that it takes about 30 seconds for the image to load.
+#'Click on the points that appear in the regions, whose area/volume you want to
+#'estimate. In the default picturethat would be all the pores of the sponge.
+#'When you have pressed all relevant points click on "estimate" button
+#'to get the result
+#'Depends on the following packages:
+#'shiny, shinythemes,plotly,tidyverse,EBImage
+#'
+#'
 #'
 #'
 #'@import shiny
@@ -17,13 +27,15 @@
 #'
 #'
 
-library(shiny);library(shinythemes);library(tidyverse)
-library(plotly);library(EBImage);
 
 
 point_estimator_app <- function(){
 
+  library(shiny);library(shinythemes);library(tidyverse)
+  library(plotly);library(EBImage);
+
 # Create app to estimate properties from P_p
+
 
 ui <- fluidPage(
   titlePanel("Point estimator"),
@@ -73,7 +85,7 @@ ui <- fluidPage(
 
   mainPanel(tabsetPanel(
 
-  tabPanel("Image",plotlyOutput("plot",width = "600px",height="600px")),
+  tabPanel("Image",plotly::plotlyOutput("plot",width = "600px",height="600px")),
 
   tabPanel("Points",tableOutput("table"))
 

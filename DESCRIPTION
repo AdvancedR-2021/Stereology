@@ -15,3 +15,10 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
+Imports: 
+    shiny,
+    plotly,
+    shinythemes,
+    EBImage,
+    dplyr,
+    ggplot2
