@@ -2,5 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+
+
 inst/doc
+
 spateology_positions.csv
