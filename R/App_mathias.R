@@ -1,6 +1,15 @@
+
+#'
+#'
+#'
+#'
+#'
+
 library(shiny);library(shinythemes);library(tidyverse)
 library(plotly);library(EBImage);library(DT)
 
+
+point_estimator_app <- function(){
 
 # Create app to estimate properties from P_p
 
@@ -45,7 +54,7 @@ ui <- fluidPage(
   textOutput("P_p"),
 
   # Add actionbutton to remove currently selected point
-  actionButton("undo","Unselect point")
+  # actionButton("undo","Unselect point")
 
   ),
 
@@ -85,11 +94,8 @@ server <- function(input, output, session){
 
     default <-system.file("extdata", "sponge3.jpg", package = "Stereology")
 
-    path_df <- input$image
+    path_df <- input$image # dataframe with input. col "datapath" contains path to file
 
-    #ifelse(is.null(input$image), EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology")),input$image)
-
-    #EBImage::readImage("C:/Users/mathi/Desktop/Advanced R/Sterology/inst/extdata/sponge3.jpg")
 
     if(!is.data.frame(input$image)){EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology"))
       } else {EBImage::readImage(path_df$datapath)}
@@ -212,7 +218,7 @@ output$table <- renderTable({
 
 shinyApp(ui = ui, server = server)
 
-
+}
 
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
