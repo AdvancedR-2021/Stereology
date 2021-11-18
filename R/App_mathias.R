@@ -1,12 +1,14 @@
 
 #'
+#'@import shiny
+#'@export
 #'
 #'
 #'
 #'
 
 library(shiny);library(shinythemes);library(tidyverse)
-library(plotly);library(EBImage);library(DT)
+library(plotly);library(EBImage);
 
 
 point_estimator_app <- function(){
