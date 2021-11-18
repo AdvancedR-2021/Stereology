@@ -1,0 +1,11 @@
+name: load_img
+title:
+username:
+account: johanlassen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5019057
+bundleId: 5199747
+url: https://johanlassen.shinyapps.io/load_img/
+when: 1635799072.76972
+lastSyncTime: 1635799072.76974
