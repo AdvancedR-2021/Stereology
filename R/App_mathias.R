@@ -3,7 +3,7 @@
 #' @description Running this function launches an interactive app that allows
 #'  you to upload an image, plot points on it, select relevant points and then
 #'  estimate properties based on that. Once the app is open press the "Update"
-#'  button to plot the image and points. If no image a default image will be
+#'  button to plot the image and points. If no image is provided, a default image will be
 #'  plotted. Please be aware that it takes about 30 seconds for the image to
 #'  load. Click on the points that appear in the regions, whose area/volume you
 #'  want to estimate. In the default picturethat would be all the pores of the
@@ -19,7 +19,7 @@
 #' @import shinythemes
 #' @import plotly
 #' @import tidyverse
-#' @import EBImage
+#' @importFrom EBImage readImage
 #'
 #' @return Launches app
 #'
@@ -34,51 +34,49 @@
 
 point_estimator_app <- function(){
 
-  library(shiny);library(shinythemes);library(tidyverse)
-  library(plotly);library(EBImage);
-
 # Create app to estimate properties from P_p
 
 
-ui <- fluidPage(
-  titlePanel("Point estimator"),
+ui <- shiny::fluidPage(
+  shiny::titlePanel("Point estimator"),
   theme=shinythemes::shinytheme("darkly"),
-  sidebarLayout(sidebarPanel(
+  shiny::sidebarLayout(
+    shiny::sidebarPanel(
 
   # add fileinput
-  fileInput("image","Opload image",accept=c(".jpg",".png")),
+  shiny::fileInput("image","Opload image",accept=c(".jpg",".png")),
   #textInput("path","Insert path to image"),
 
   # Add slider to choose size of points
-  sliderInput("size","Select size of points",min=1,max=10,value=5),
+  shiny::sliderInput("size","Select size of points",min=1,max=10,value=5),
 
   # Add select input to choose color of points
-  selectInput('color', 'Select color of points', choices = c("Blue", "Red","Black","White")),
+  shiny::selectInput('color', 'Select color of points', choices = c("Blue", "Red","Black","White")),
 
   # Add transparency option
   #sliderInput("alpha","Select transparency",min=0,max=1,value=1),
 
   # Add slider inputs to select number of points
-  sliderInput('ny_points', 'Select number of rows', min = 1, max = 20,value=7),
-  sliderInput('nx_points', 'Select number of coloums', min = 1, max = 20,value=7),
+  shiny::sliderInput('ny_points', 'Select number of rows', min = 1, max = 20,value=7),
+  shiny::sliderInput('nx_points', 'Select number of coloums', min = 1, max = 20,value=7),
 
   # Add actionbutton to update plot
-  actionButton("run", "Update"),
+  shiny::actionButton("run", "Update"),
 
 
   # Add outputs
 
   # Text box output
-  verbatimTextOutput("click"),
+  shiny::verbatimTextOutput("click"),
 
   # Add text with selected points
-  textOutput("npoints"),
+  shiny::textOutput("npoints"),
 
   # Add actionbutton to calculate estimate
-  actionButton("estimate", "Estimate"),
+  shiny::actionButton("estimate", "Estimate"),
 
   # Add text with estimate
-  textOutput("P_p"),
+  shiny::textOutput("P_p"),
 
   # Add actionbutton to remove currently selected point
   # actionButton("undo","Unselect point")
@@ -86,11 +84,11 @@ ui <- fluidPage(
   ),
 
 
-  mainPanel(tabsetPanel(
+  shiny::mainPanel(shiny::tabsetPanel(
 
-  tabPanel("Image",plotly::plotlyOutput("plot",width = "600px",height="600px")),
+    shiny::tabPanel("Image",plotly::plotlyOutput("plot",width = "600px",height="600px")),
 
-  tabPanel("Points",tableOutput("table"))
+    shiny::tabPanel("Points",shiny::tableOutput("table"))
 
   )
   )
@@ -106,7 +104,7 @@ server <- function(input, output, session){
   # Create grid of points
   # y_values <- seq(0.1*dim(img)[1],dim(img)[1]-0.1*dim(img)[1],length.out=input$nx_points)
   # x_values <- seq(0.1*dim(img)[2],dim(img)[2]-0.1*dim(img)[2],length.out=input$ny_points)
-  # xy_grid <- expand_grid(x=x_values,y=y_values)
+  # xy_grid <- tidyr::expand_grid(x=x_values,y=y_values)
 
   # plotly_img <- plot_ly(type="image", z=img*255)
   #
@@ -117,7 +115,7 @@ server <- function(input, output, session){
   # Assign plot to output
 
   #Load image
-  img <- reactive({
+  img <- shiny::reactive({
 
     default <-system.file("extdata", "sponge3.jpg", package = "Stereology")
 
@@ -133,36 +131,36 @@ server <- function(input, output, session){
 
   # Create grid of points
 
-  grid <- eventReactive(input$run,{
+  grid <- shiny::eventReactive(input$run,{
     y_values <- seq(0.1*dim(img())[1],dim(img())[1]-0.1*dim(img())[1],length.out=input$nx_points)
     x_values <- seq(0.1*dim(img())[2],dim(img())[2]-0.1*dim(img())[2],length.out=input$ny_points)
-    xy_grid <- expand_grid(x=x_values,y=y_values)
+    xy_grid <- tidyr::expand_grid(x=x_values,y=y_values)
     xy_grid
 
   })
 
   # Create plotly object of image
 
-  plotly_img <- reactive({plot_ly(type="image",z=255*img())})
+  plotly_img <- shiny::reactive({plotly::plot_ly(type="image",z=255*img())})
 
 
   output$plot<-plotly::renderPlotly({
 
     # Create plotly object of image and add points to it
-     isolate(plotly_img()) %>%
-      add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),showlegend=FALSE)
+    shiny::isolate(plotly_img()) %>%
+      plotly::add_markers(x = grid()$x,y = grid()$y,marker = list(size = input$size, symbol = "dot"),inherit=FALSE,color=I(input$color),showlegend=FALSE)
 
 
   })
 
-  point <- reactive({event_data("plotly_click")
+  point <- shiny::reactive({plotly::event_data("plotly_click")
   })
 
 
 
 
   # Add click events
-  output$click <- renderPrint({
+  output$click <- shiny::renderPrint({
     #d <- event_data("plotly_click")
     if (is.null(point()[])) "Selected points appear here" else point()[2:4]
   })
@@ -172,7 +170,7 @@ server <- function(input, output, session){
 
   # Create reactive function to save information from click events in matrix and return total number of points selected
 
-table_points <- reactive({
+table_points <- shiny::reactive({
 
   points_row <- matrix(point()[2:4],nrow = 1,ncol = 3)
 
@@ -186,7 +184,7 @@ table_points <- reactive({
 
 # Create output to show number of points selected
 
-output$npoints <- renderText({
+output$npoints <- shiny::renderText({
 
   k <- table_points()
   paste("Number of points selected:",k)
@@ -195,7 +193,7 @@ output$npoints <- renderText({
 
  # Calculate estimate from number of selected points and total points
 
-estimate <- eventReactive(input$estimate,{
+estimate <- shiny::eventReactive(input$estimate,{
 
   x_points <- input$nx_points
 
@@ -209,7 +207,7 @@ estimate <- eventReactive(input$estimate,{
 })
 
 
-output$P_p <- renderText({
+output$P_p <- shiny::renderText({
 
   k1 <- estimate()
 
@@ -218,7 +216,7 @@ output$P_p <- renderText({
 
 ## Create table with all data about all selected points in seperate tab
 
-output$table <- renderTable({
+output$table <- shiny::renderTable({
 
   table <- as.data.frame(df)
   colnames(table) <- c("Point_ID","x","y")
@@ -243,7 +241,7 @@ output$table <- renderTable({
 }
 
 
-shinyApp(ui = ui, server = server)
+shiny::shinyApp(ui = ui, server = server)
 
 }
 

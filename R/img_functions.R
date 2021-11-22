@@ -4,6 +4,7 @@
 #'
 #' @return A stero object
 #' @export
+#' @importFrom imager load.image
 #'
 #'
 #'
@@ -26,9 +27,9 @@ load_img <- function(path) {
 #' @param dimy
 #'
 #'It reduces the size of the data at the same type to a specified dimension (dimx, dimy)
-#'
 #' @return
 #' @export
+#' @importFrom imager resize
 #'
 
 
@@ -95,7 +96,7 @@ make_grid <- function(img_tabledata, n=10){
 #'
 #' @param img_tabledata (DESCRIPTION)
 #' @param grid (DESCRIPTION)
-#'
+#' @importFrom ggplot2 ggplot aes geom_raster scale_fill_identity geom_segment scale_y_reverse theme_void
 #' @return
 #' @export
 #'
@@ -225,29 +226,33 @@ estimate_porosity <- function(responses, df){
   differences <- purrr::map(differences, find_dimensional_difference)
   differences <- dplyr::bind_rows(differences, .id = "dimension")
 
+  if (! "x" %in% differences$dimension) {differences = dplyr::bind_rows(differences, list(dimension="x", lines = 0, difference = 0))}
+  if (! "y" %in% differences$dimension) {differences = dplyr::bind_rows(differences, list(dimension="y", lines = 0, difference = 0))}
+
   differences$dimension_lengths <- c(max(df$x), max(df$y))
 
   estimate <- mean((differences$difference/differences$dimension_lengths)/differences$lines)
-  return(estimate)
+  return(round(estimate, 3))
 }
 
+
+
+#' Calculate standard error of proportion
+#'
+#' @param proportion porosity estimate
+#' @param pop_size number of pairs (i.e., points / 2)
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' se_prop(proportion, pop_size)
+#'
 se_prop <- function(proportion, pop_size){
-  return(sqrt(proportion*(1-proportion)/pop_size))
+  se <- sqrt(proportion*(1-proportion)/pop_size)
+  return(round(se, 3))
 }
 
-
-
-plot_precision <- function(responses, df){
-  p <- estimate_porosity(responses, df)
-  se <- se_prop(p, nrow(responses))
-
-  ggplot() +
-    geom_segment(aes(x = 1, xend = 1, y = 0, yend = 1)) +
-    geom_pointrange(aes(x = 1, y = p, xmin = 1, xmax = 1, ymin = p-se, ymax = p+se), color = "red", size=1.5) +
-    annotate("text", x = 1, y = p, label = p) +
-    coord_flip() +
-    theme_void()
-}
 
 # bootstrap_responses <- function(responses){
 #
@@ -259,15 +264,12 @@ plot_precision <- function(responses, df){
 #
 # }
 
-library(dplyr)
-
 if (F) {
   path = system.file("extdata", "sponge3.jpg", package = "Stereology")
   object <- load_img(path)
   df <- img_to_table(object)
   grid   <- make_grid(df)
-  ster()
-  a = estimate_porosity(responses, df)
+  a = estimate_porosity(responses, df = object)
   se_prop(a, nrow(responses))
 
   plot_precision(responses, df)

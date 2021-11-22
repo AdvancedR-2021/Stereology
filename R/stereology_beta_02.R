@@ -53,13 +53,53 @@ save_data <- function(data, grid = NULL) {
 #' @export
 #'
 #'
-
-
-# @examples (EMPTY)
-
 load_data <- function() {
   if (exists("responses")) {
     responses
+  }
+}
+
+# @examples (EMPTY)
+
+#' retrieve metric to app
+#'
+#' @return
+#' @export
+#'
+load_metric <- function() {
+  if (exists("result")) {
+    return(result)
+  }
+  return(NULL)
+}
+
+
+#' Recalculate porosity and SE
+#'
+#' @param dataframe object of image
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' get_metric(df)
+get_metric <- function(object) {
+  responses <- load_data()
+  if (is.null(responses)) {return(NULL)}
+  if(is.null(responses)|nrow(responses)<2){
+    result <<- NULL
+  }else{
+    if (nrow(responses)%%2 == 0){
+      p = estimate_porosity(responses, object)
+      se = se_prop(p, nrow(responses))
+      ifelse(is.na(p),
+             result <<- NULL,
+             result <<- list("se" = se, "p"=p)
+             )
+      print(result)
+    } else{
+      result <<- NULL
+    }
   }
 }
 
@@ -71,12 +111,10 @@ load_data <- function() {
 #' @return Data table with locations of crossings
 #' @export
 #'
-#'
+#' @examples
+#' line_estimator_app()
 
-
-# @examples run_spat()
-
-ster <- function(
+line_estimator_app <- function(
   object = NULL,
   path = system.file("extdata", "sponge3.jpg", package = "Stereology"),
   seed = 1
@@ -90,8 +128,6 @@ ster <- function(
   } else {
     grid <- make_grid(object)
   }
-
-
   p <- make_grid_plot(object, grid)
 
 
@@ -101,11 +137,9 @@ ster <- function(
       shiny::fluidPage(
 
         shiny::plotOutput("plot", click = "click"),
-#
-#         DT::dataTableOutput("responses", width = 300), shiny::tags$hr(),
+        shiny::actionButton("porosity", "Get Porosity Estimate"),
         shiny::textOutput("metric"),
-
-        shiny::actionButton("save", "save")
+        shiny::actionButton("save", "Save Data Points")
 
         ),
 
@@ -114,7 +148,16 @@ ster <- function(
       pointer_data <- shiny::reactive({
         data <- c("x"=round(input$click$x, 1), "y"=round(input$click$y, 1), "dimension"=NA, "pair_id" = NA)
         data
-        })
+      })
+
+      output$metric <- shiny::renderText({
+        input$porosity
+        r <- load_metric()
+        print(r)
+        if (is.null(r)) {"Complete at least one vertical line and one horisontal line, OR complete the current pair of points"} else {
+          paste("Porosity:", r$p, "\n","  SE:",r$se)
+        }
+      })
 
       # This function should respond to clicks and then: load responses, calculate dimension, correct non-used dimension, and plot corrected value as point.
       plot_data <- shiny::reactive({
@@ -130,19 +173,6 @@ ster <- function(
         p+plot_data()
       })
 
-      output$text <- renderText({
-        input$click
-        responses <- load_data()
-        if(is.null(responses)|nrow(responses)<2){
-          result = "no estimate yet"
-        }else{
-          a = estimate_porosity(responses, object)
-          se = se_prop(a, nrow(responses))
-          result = paste("porosity:", a, "SE:", se)
-        }
-        result
-        })
-
       # When the Submit button is clicked, save the form data
       shiny::observeEvent(input$click, {
         save_data(pointer_data(), grid)
@@ -152,16 +182,14 @@ ster <- function(
         write_data(load_data())
       })
 
-      # Show the previous responses
-      # (update with current response when Submit is clicked)
-      # output$responses <- DT::renderDataTable({
-      #   input$click
-      #   load_data()
-      # })
+      shiny::observeEvent(input$porosity, {
+        get_metric(object)
+      })
+
 
       }
   )
 }
 
-#ster()
+#line_estimator_app()
 
