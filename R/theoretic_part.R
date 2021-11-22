@@ -13,17 +13,20 @@ NULL
 #' @rdname Theoretic
 #' @param image_path The path where the image is stored.
 #' @param thr The threshold used to turn the image in black and white. The default value is 0.5.
-#' @import imager
+#' @importFrom imager load.image grayscale
+#' @importFrom magrittr %>%
 #' @return The function 'bw_mat()' returns a list containing: \cr
 #'   1) the matrix that represents the black and white version of the image that
 #'   was used as input, and \cr
 #'   2) the plot of the black and white version of the image.
 #' @export
+
+
 # Turn image to 0 (white)/ 1 (black) matrix
 
 bw_mat <- function(image_path, thr = .5) {
-  im <- load.image(image_path)
-  g_im <- grayscale(im)
+  im <- imager::load.image(image_path)
+  g_im <- imager::grayscale(im)
   t_gim <- g_im >thr
   mat <- t_gim %>%
     as.matrix()

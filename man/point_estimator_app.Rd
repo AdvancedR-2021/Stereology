@@ -13,7 +13,7 @@ Launches app
 Running this function launches an interactive app that allows
  you to upload an image, plot points on it, select relevant points and then
  estimate properties based on that. Once the app is open press the "Update"
- button to plot the image and points. If no image a default image will be
+ button to plot the image and points. If no image is provided, a default image will be
  plotted. Please be aware that it takes about 30 seconds for the image to
  load. Click on the points that appear in the regions, whose area/volume you
  want to estimate. In the default picturethat would be all the pores of the

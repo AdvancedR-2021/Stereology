@@ -24,7 +24,7 @@ library(Stereology)
 
 Let's try finding some points in a sponge
 ```{r}
-ster()
+#line_estimator_app()
 ```
 
 

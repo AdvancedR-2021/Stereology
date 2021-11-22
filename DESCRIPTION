@@ -9,16 +9,18 @@ Description: More about what it does (maybe more than one line)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+biocViews:
 Imports:
     dplyr,
+    BiocGenerics,
     imager,
     magrittr,
     purrr,
     shiny,
     ggplot2,
+    EBImage, 
     plotly,
     shinythemes,
-    EBImage,
     dplyr, 
     tidyverse
 Suggests: 
