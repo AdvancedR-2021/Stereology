@@ -41,21 +41,20 @@ bw_mat <- function(image_path, thr = .5) {
 
 #' @rdname Theoretic
 #' @param mtr A matrix generated using the function 'bw_mat()'.
-#' @param x Numeric variable. The index of the pixel-row to start subsetting the
-#'    'mtr'.
-#' @param y Numeric variable. The index of the pixel-column to start subsetting
-#'   the 'mtr'.
-#' @param dx Numeric variable. The length of pixels used to subset the 'mtr' on the x-axis.
-#' @param dy Numeric variable. The length of pixels used to subset the 'mtr' on the y-axis.
-#' @param trial_s Numeric variable. The amount of repetitions used for the
-#'   simulation.
+#' @param x Numeric variable. The index of the pixel-row to start the grid.
+#' @param y Numeric variable. The index of the pixel-column to start the grid.
+#' @param lx Numeric variable. The amount of horizontal indices to be used.
+#' @param ly Numeric variable. The amount of vertical indices to be used.
+#'
 #' @return The function 'th_i_est()' returns a list containing: \cr
-#'   1) submatrix: part of the original matrix \cr
-#'   2) p: the probability (p) estimated using this sub-matrix, \cr
-#'   3) mean_p_hat: the average of the p_hats generated through simulations, and \cr
-#'   4) variance_p_hat: the variance of those p_hats.
+#'   1) point_mean: the mean of black pixels for the point grid method, \cr
+#'   2) point_variance: the variance of black pixels for the point grid method, \cr
+#'   3) line_mean: the mean of black pixels for the line grid method, and \cr
+#'   4) line_variance: the variance of black pixels for the line grid method.
+#'
 #' @export
-# List of MC estimates depending on part of the matrix.
+
+# List of theoretical estimates.
 
 th_i_ests <- function (mtr, x, y, lx, ly) {
   if (!is(mtr, "bw_img") ) stop("The matrix needs be generated using the bw_img() function.")
