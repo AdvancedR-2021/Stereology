@@ -47,10 +47,8 @@ bw_mat <- function(image_path, thr = .5) {
 #' @param ly Numeric variable. The amount of vertical indices to be used.
 #'
 #' @return The function 'th_i_est()' returns a list containing: \cr
-#'   1) point_mean: the mean of black pixels for the point grid method, \cr
-#'   2) point_variance: the variance of black pixels for the point grid method, \cr
-#'   3) line_mean: the mean of black pixels for the line grid method, and \cr
-#'   4) line_variance: the variance of black pixels for the line grid method.
+#'   1) point_mean: the mean of black pixels for the point grid method, and \cr
+#'   2) line_mean: the mean of black pixels for the line grid method.
 #'
 #' @export
 

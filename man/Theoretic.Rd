@@ -8,7 +8,7 @@
 \usage{
 bw_mat(image_path, thr = 0.5)
 
-th_i_ests(mtr, x, y, dx, dy, trial_s)
+th_i_ests(mtr, x, y, lx, ly)
 }
 \arguments{
 \item{image_path}{The path where the image is stored.}
@@ -17,18 +17,13 @@ th_i_ests(mtr, x, y, dx, dy, trial_s)
 
 \item{mtr}{A matrix generated using the function 'bw_mat()'.}
 
-\item{x}{Numeric variable. The index of the pixel-row to start subsetting the
-'mtr'.}
+\item{x}{Numeric variable. The index of the pixel-row to start the grid.}
 
-\item{y}{Numeric variable. The index of the pixel-column to start subsetting
-the 'mtr'.}
+\item{y}{Numeric variable. The index of the pixel-column to start the grid.}
 
-\item{dx}{Numeric variable. The length of pixels used to subset the 'mtr' on the x-axis.}
+\item{lx}{Numeric variable. The amount of horizontal indices to be used.}
 
-\item{dy}{Numeric variable. The length of pixels used to subset the 'mtr' on the y-axis.}
-
-\item{trial_s}{Numeric variable. The amount of repetitions used for the
-simulation.}
+\item{ly}{Numeric variable. The amount of vertical indices to be used.}
 }
 \value{
 The function 'bw_mat()' returns a list containing: \cr
@@ -37,10 +32,10 @@ The function 'bw_mat()' returns a list containing: \cr
   2) the plot of the black and white version of the image.
 
 The function 'th_i_est()' returns a list containing: \cr
-  1) submatrix: part of the original matrix \cr
-  2) p: the probability (p) estimated using this sub-matrix, \cr
-  3) mean_p_hat: the average of the p_hats generated through simulations, and \cr
-  4) variance_p_hat: the variance of those p_hats.
+  1) point_mean: the mean of black pixels for the point grid method, \cr
+  2) point_variance: the variance of black pixels for the point grid method, \cr
+  3) line_mean: the mean of black pixels for the line grid method, and \cr
+  4) line_variance: the variance of black pixels for the line grid method.
 }
 \description{
 2 functions: 'bw_mat()' and 'th_i_est()', offering exploration of
