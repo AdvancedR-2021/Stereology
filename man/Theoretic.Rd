@@ -32,10 +32,8 @@ The function 'bw_mat()' returns a list containing: \cr
   2) the plot of the black and white version of the image.
 
 The function 'th_i_est()' returns a list containing: \cr
-  1) point_mean: the mean of black pixels for the point grid method, \cr
-  2) point_variance: the variance of black pixels for the point grid method, \cr
-  3) line_mean: the mean of black pixels for the line grid method, and \cr
-  4) line_variance: the variance of black pixels for the line grid method.
+  1) point_mean: the mean of black pixels for the point grid method, and \cr
+  2) line_mean: the mean of black pixels for the line grid method.
 }
 \description{
 2 functions: 'bw_mat()' and 'th_i_est()', offering exploration of
@@ -50,11 +48,11 @@ The function 'th_i_est()' returns a list containing: \cr
 path <- system.file('extdata/sponge3.jpg',package='Stereology')
 
 # Applying bw_mat().
-a <- bw_mat(path, .5)
+a <- bw_mat(path)
 
 # Applying th_i_ests()
-est_l <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, dx = 10, dy = 10,  trial_s = 100)
-est_l
+est_a <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, lx= 5, ly = 10)
+est_a
 
 # For more details use: browseVignettes(package = "Stereology").
 }
