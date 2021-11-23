@@ -57,24 +57,31 @@ bw_mat <- function(image_path, thr = .5) {
 #' @export
 # List of MC estimates depending on part of the matrix.
 
-th_i_ests <- function (mtr, x, y, dx, dy, trial_s) {
+th_i_ests <- function (mtr, x, y, lx, ly) {
   if (!is(mtr, "bw_img") ) stop("The matrix needs be generated using the bw_img() function.")
-  if (x+dx > nrow(mtr)) stop("The matrix dimensions have been exceeded.")
-  if (y+dy > ncol(mtr)) stop("Tha matrix dimensions have been exceeded.")
-  pmat <- mtr[x:(x+dx), y:(y+dy)]
-  est <- mean(pmat)
-  #sample_s <- (dx+1)*(dy+1)
-  sample_s <- nrow(mtr)*ncol(mtr)
-  sims <- matrix(rbinom(trial_s*sample_s, size=1, prob = est),
-                 nrow = trial_s,
-                 ncol = sample_s)
-  p_hat <- rowSums(sims)/sample_s
-  avg_ph <- mean(p_hat)
-  v_ph <- var(p_hat)
-  r_list <- list(submatrix = pmat,
-                 p = est,
-                 mean_p_hat = avg_ph,
-                 variance_p_hat = v_ph)
-  return(invisible(r_list))
+  if (lx > nrow(mtr) || lx <= 0) stop("Incorrect amount of horizontal indices.")
+  if (ly > ncol(mtr) || ly <= 0) stop("Incorrect amount of vertical indices.")
+  # point estimator
+  p_mat <- mtr[seq(x, nrow(mtr), floor(nrow(mtr)/lx)), seq(y, ncol(mtr), floor(ncol(mtr)/ly))]
+  p_mean <- mean(p_mat)
+  pme <- (p_mat - p_mean)^2
+  p_var <- pme/((nrow(p_mat)*ncol(p_mat))-1)
+  # line estimator
+  lmh <- mtr[seq(x, nrow(mtr), floor(nrow(mtr)/lx)), ]
+  lmv <- mtr[, seq(y, ncol(mtr), floor(ncol(mtr)/ly))]
+  s_h <- rowSums(lmh)
+  s_v <- colSums(lmv)
+  l_mean <- (sum(s_h)+sum(s_v))/((nrow(lmh)*ncol(lmh))+(nrow(lmv)*ncol(lmv)))
+  ss_h <- (lmh - l_mean)^2
+  ss_v <- (lmv - l_mean)^2
+  l_var <- sum(rowSums(ss_h)) + sum(colSums(ss_v))/((nrow(ss_h)*ncol(ss_h))+(nrow(ss_v)*ncol(ss_v))-1)
+  # list of outputs
+  r_list <- list(point_mean = p_mean,
+                 point_variance = p_var,
+                 line_mean = l_mean,
+                 line_variance = l_var
+  )
+  return(r_list)
 
 }
+
