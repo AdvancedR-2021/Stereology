@@ -5,10 +5,10 @@
 path <- system.file('extdata/sponge3.jpg',package='Stereology')
 
 # Applying bw_mat().
-a <- bw_mat(path, .5)
+a <- bw_mat(path)
 
 # Applying th_i_ests()
-est_l <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, dx = 10, dy = 10,  trial_s = 100)
-est_l
+est_a <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, lx= 5, ly = 10)
+est_a
 
 # For more details use: browseVignettes(package = "Stereology").
