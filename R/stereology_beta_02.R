@@ -64,6 +64,7 @@ get_metric <- function(object) {
 line_estimator_app <- function(
   object = NULL,
   path = system.file("extdata", "sponge3.jpg", package = "Stereology"),
+  grid_number = 10,
   seed = 1
 ){
 
@@ -71,9 +72,9 @@ line_estimator_app <- function(
   if (is.null(object)) {
     object <- load_img(path)
     object <- img_to_table(object)
-    grid   <- make_grid(object)
+    grid   <- make_grid(object, n = grid_number)
   } else {
-    grid <- make_grid(object)
+    grid <- make_grid(object, n = grid_number)
   }
   p <- make_grid_plot(object, grid)
 
@@ -138,5 +139,5 @@ line_estimator_app <- function(
   )
 }
 
-#line_estimator_app()
+#line_estimator_app(grid_number = 20)
 
