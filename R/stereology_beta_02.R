@@ -1,38 +1,9 @@
 
-
-#' Write ster data
-#'
-#' @param data from spateology curation
-#' @param ...
-#'
-#' @return a csv file saved in working folder
-#'
-#'
-#'
-
-# @examples None - to be used in run_spat function
-
 write_data <- function(data, ...) {
 
   # Should be able to make filename specific saves
   write.csv(responses, file = "stereology_positions.csv") #paste0(gsub(".*", "", path), "_spateology_positions.csv"))
 }
-
-
-
-
-
-#' Update data frame
-#'
-#' @param data
-#'
-#' @return
-#'
-#'
-#'
-
-
-# @examples (EMPTY)
 
 save_data <- function(data, grid = NULL) {
   data <- as.data.frame(t(data))
@@ -44,28 +15,13 @@ save_data <- function(data, grid = NULL) {
 }
 
 
-
-
-
-#' Retrieves curated data
-#'
-#' @return a dataframe of x y positions
-#'
-#'
-#'
 load_data <- function() {
   if (exists("responses")) {
     responses
   }
 }
 
-# @examples (EMPTY)
 
-#' retrieve metric to app
-#'
-#' @return
-#'
-#'
 load_metric <- function() {
   if (exists("result")) {
     return(result)
@@ -74,15 +30,6 @@ load_metric <- function() {
 }
 
 
-#' Recalculate porosity and SE
-#'
-#' @param dataframe object of image
-#'
-#' @return
-#'
-#'
-#' @examples
-#' get_metric(df)
 get_metric <- function(object) {
   responses <- load_data()
   if (is.null(responses)) {return(NULL)}

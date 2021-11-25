@@ -1,15 +1,3 @@
-#' Load image
-#'
-#' @param path
-#'
-#' @return A stero object
-#'
-#' @importFrom imager load.image
-#'
-#'
-#'
-
-# @examples img <- load_img(DATA_TO_BE_ADDED)
 
 load_img <- function(path) {
   img <- imager::load.image(path)
@@ -17,46 +5,12 @@ load_img <- function(path) {
   return(img)
 }
 
-
-
-
-#' Convert image to dataframe
-#'
-#' @param img (DESCRIPTION)
-#' @param dimx (DESCRIPTION)
-#' @param dimy
-#'
-#'It reduces the size of the data at the same type to a specified dimension (dimx, dimy)
-#' @return
-#'
-#' @importFrom imager resize
-#'
-
-
-# @examples (EMPTY)
-
 img_to_table <- function(img, dimx = 300, dimy=300){
   img  <- imager::resize(img, dimx, dimy)
   df <- as.data.frame(img,wide="c")
   df$rgb.val <- grDevices::rgb(df[c("c.1", "c.2", "c.3")])
   return(df)
 }
-
-
-
-
-#' Initiate grid matching image dimensions
-#'
-#' Random start point of grid.
-#' @param img_tabledata (DESCRIPTION)
-#' @param n (DESCRIPTION)
-#'
-#' @return
-#'
-#'
-#'
-
-# @examples (EMPTY)
 
 make_grid <- function(img_tabledata, n=10){
   # Extract max values
@@ -90,20 +44,6 @@ make_grid <- function(img_tabledata, n=10){
 }
 
 
-
-
-#' Plot data and grid
-#'
-#' @param img_tabledata (DESCRIPTION)
-#' @param grid (DESCRIPTION)
-#' @importFrom ggplot2 ggplot aes geom_raster scale_fill_identity geom_segment scale_y_reverse theme_void
-#' @return
-#'
-#'
-#'
-
-# @examples (EMPTY)
-
 make_grid_plot <- function(img_tabledata, grid) {
   ggplot2::ggplot(img_tabledata,ggplot2::aes(x,y,fill=rgb.val))+
     ggplot2::geom_raster()+
@@ -113,20 +53,6 @@ make_grid_plot <- function(img_tabledata, grid) {
     ggplot2::theme_void()
 }
 
-
-
-
-#' Calculate dimensions from coordinate data
-#'
-#' @param df The image dataframe
-#' @param grid (DESCRIPTION)
-#'
-#' @return
-#'
-#'
-#'
-
-# @examples (EMPTY)
 
 get_dimension <- function(df, grid){
   # Just return df if pair not complete yet
@@ -169,19 +95,6 @@ get_dimension <- function(df, grid){
   return(df)
   }
 
-
-#' Difference along dimensions
-#'
-#' @param responses_one_dim (DESCRIPTION)
-#'
-#' @return
-#'
-#' @importFrom magrittr %>%
-#' @import dplyr
-#'
-
-# @examples (EMPTY)
-
 find_dimensional_difference <- function(responses_one_dim) {
   if (responses_one_dim$dimension[1]=="x") {
     summ <-
@@ -203,24 +116,6 @@ find_dimensional_difference <- function(responses_one_dim) {
 }
 
 
-
-
-
-#' Estimate porosity
-#'
-#' @param responses (DESCRIPTION)
-#' @param df (DESCRIPTION)
-#'
-#' @return
-#'
-#'
-#' @import purrr
-#' @import dplyr
-#' @importFrom magrittr %>%
-#'
-
-# @examples (EMPTY)
-
 estimate_porosity <- function(responses, df){
   differences <- split(responses, responses$dimension)
   differences <- purrr::map(differences, find_dimensional_difference)
@@ -237,17 +132,6 @@ estimate_porosity <- function(responses, df){
 
 
 
-#' Calculate standard error of proportion
-#'
-#' @param proportion porosity estimate
-#' @param pop_size number of pairs (i.e., points / 2)
-#'
-#' @return
-#'
-#'
-#' @examples
-#' se_prop(proportion, pop_size)
-#'
 se_prop <- function(proportion, pop_size){
   se <- sqrt(proportion*(1-proportion)/pop_size)
   return(round(se, 3))
