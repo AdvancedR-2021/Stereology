@@ -6,7 +6,7 @@
 #' @param ...
 #'
 #' @return a csv file saved in working folder
-#' @export
+#'
 #'
 #'
 
@@ -27,7 +27,7 @@ write_data <- function(data, ...) {
 #' @param data
 #'
 #' @return
-#' @export
+#'
 #'
 #'
 
@@ -50,7 +50,7 @@ save_data <- function(data, grid = NULL) {
 #' Retrieves curated data
 #'
 #' @return a dataframe of x y positions
-#' @export
+#'
 #'
 #'
 load_data <- function() {
@@ -64,7 +64,7 @@ load_data <- function() {
 #' retrieve metric to app
 #'
 #' @return
-#' @export
+#'
 #'
 load_metric <- function() {
   if (exists("result")) {
@@ -79,7 +79,7 @@ load_metric <- function() {
 #' @param dataframe object of image
 #'
 #' @return
-#' @export
+#'
 #'
 #' @examples
 #' get_metric(df)

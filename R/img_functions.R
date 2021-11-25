@@ -3,7 +3,7 @@
 #' @param path
 #'
 #' @return A stero object
-#' @export
+#'
 #' @importFrom imager load.image
 #'
 #'
@@ -28,7 +28,7 @@ load_img <- function(path) {
 #'
 #'It reduces the size of the data at the same type to a specified dimension (dimx, dimy)
 #' @return
-#' @export
+#'
 #' @importFrom imager resize
 #'
 
@@ -52,7 +52,7 @@ img_to_table <- function(img, dimx = 300, dimy=300){
 #' @param n (DESCRIPTION)
 #'
 #' @return
-#' @export
+#'
 #'
 #'
 
@@ -98,7 +98,7 @@ make_grid <- function(img_tabledata, n=10){
 #' @param grid (DESCRIPTION)
 #' @importFrom ggplot2 ggplot aes geom_raster scale_fill_identity geom_segment scale_y_reverse theme_void
 #' @return
-#' @export
+#'
 #'
 #'
 
@@ -122,7 +122,7 @@ make_grid_plot <- function(img_tabledata, grid) {
 #' @param grid (DESCRIPTION)
 #'
 #' @return
-#' @export
+#'
 #'
 #'
 
@@ -175,7 +175,7 @@ get_dimension <- function(df, grid){
 #' @param responses_one_dim (DESCRIPTION)
 #'
 #' @return
-#' @export
+#'
 #' @importFrom magrittr %>%
 #' @import dplyr
 #'
@@ -212,7 +212,7 @@ find_dimensional_difference <- function(responses_one_dim) {
 #' @param df (DESCRIPTION)
 #'
 #' @return
-#' @export
+#'
 #'
 #' @import purrr
 #' @import dplyr
@@ -243,7 +243,7 @@ estimate_porosity <- function(responses, df){
 #' @param pop_size number of pairs (i.e., points / 2)
 #'
 #' @return
-#' @export
+#'
 #'
 #' @examples
 #' se_prop(proportion, pop_size)
