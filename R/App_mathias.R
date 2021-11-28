@@ -10,16 +10,16 @@
 #'  sponge. When you have pressed all relevant points click on "estimate" button
 #'  to get the result. \cr
 #'  Depends on the following packages: \cr
-#'  shiny, shinythemes,plotly,tidyverse,EBImage
+#'  shiny, shinythemes,plotly,ggplot2,dplyr,readr
 #'
 #'
 #'
-#' @import tidyverse
 #' @import shiny
 #' @import shinythemes
 #' @import plotly
-#' @import tidyverse
-#' @importFrom EBImage readImage
+#' @import ggplot2
+#' @importFrom imager load.image
+#' @import dplyr
 #'
 #' @return Launches app
 #'
@@ -122,9 +122,10 @@ server <- function(input, output, session){
     path_df <- input$image # dataframe with input. col "datapath" contains path to file
 
 
-    if(!is.data.frame(input$image)){EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology"))
-      } else {EBImage::readImage(path_df$datapath)}
+    import <- if(!is.data.frame(input$image)){imager::load.image(system.file("extdata", "sponge3.jpg", package = "Stereology"))
+    } else {imager::load.image(path_df$datapath)}
 
+    as.raster(import)
 
 
   })
@@ -141,7 +142,7 @@ server <- function(input, output, session){
 
   # Create plotly object of image
 
-  plotly_img <- shiny::reactive({plotly::plot_ly(type="image",z=255*img())})
+  plotly_img <- shiny::reactive({plotly::add_image(plot_ly(type="image"),z=img())})
 
 
   output$plot<-plotly::renderPlotly({
