@@ -53,6 +53,13 @@ get_metric <- function(object) {
 
 #' Porosity estimator
 #'
+#' The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.
+#' Rules of the line estimator:
+#' - One must always assign two points to one air bubble.
+#' - If one misses a point, then assign a new point on top (it is not possible to remove points).
+#' - Always make sure lines are completed before using the estimates.
+#' - Alternate between completing horisontal and vertical lines to reduce potential bias and obtain a better estimate.
+#'
 #' @param path
 #'
 #' @return Data table with locations of crossings
