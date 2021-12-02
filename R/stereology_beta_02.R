@@ -63,9 +63,7 @@ get_metric <- function(object) {
 #'
 #' @return Data table with locations of crossings
 #' @export
-#'
-#' @examples
-#' line_estimator_app()
+
 
 line_estimator_app <- function(
   object = NULL,

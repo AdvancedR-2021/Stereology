@@ -25,6 +25,3 @@ Rules of the line estimator:
 - Always make sure lines are completed before using the estimates.
 - Alternate between completing horisontal and vertical lines to reduce potential bias and obtain a better estimate.
 }
-\examples{
-line_estimator_app()
-}
