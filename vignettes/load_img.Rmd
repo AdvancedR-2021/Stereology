@@ -86,18 +86,13 @@ est_a <- th_i_ests(mtr = a$img_mat, x = 700, y = 500, lx= 18, ly = 12)
 # Print all different outputs.
 est_a
 
-# Comparison with the mean and variance using all pixels.
-#v_a <- as.vector(t(a$img_mat))
-#mean(v_a)
-#var(v_a)
-
 ```
 
 #### Example B.
 
 In this example, we focus our attention on the threshold.
 We present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively) to highlight the fact that luminosity of the image plays an important part.
-Then, we observe the difference of estimators for the same grid.
+Then, we observe the how different the estimators are in each case.
 
 ```{r}
 # Loading the image.
@@ -108,8 +103,8 @@ b <- bw_mat(path2, 0.75)
 d <- bw_mat(path2, 0.65)
 e <- bw_mat(path2, 0.55)
 
-# Image dimensions
-dim(b$img_mat)
+# The only pore in "e".
+e$img_mat[160:175, 255:267]
 
 # Applying th_i_ests().
 est_b <- th_i_ests(mtr = b$img_mat, x = 10, y = 20, lx= 5, ly = 5)
@@ -118,17 +113,16 @@ est_e <- th_i_ests(mtr = e$img_mat, x = 10, y = 20, lx= 5, ly = 5)
 
 # Print just mean_p_hat and variance_p_hat.
 
-tab <- matrix(c(est_b$point_mean, est_b$line_mean,
-                est_d$point_mean, est_d$line_mean,
-                est_e$point_mean, est_e$line_mean), 
-              ncol=2, byrow=TRUE)
-colnames(tab) <- c('Point Mean', 'Line Mean')
+tab <- matrix(c(est_b$point_mean, est_b$line_mean, est_b$point_var, est_b$v_lines_var, est_b$h_lines_var,
+                est_d$point_mean, est_d$line_mean, est_d$point_var, est_d$v_lines_var, est_d$h_lines_var,
+                est_e$point_mean, est_e$line_mean, est_e$point_var, est_e$v_lines_var, est_e$h_lines_var), 
+              ncol=5, byrow=TRUE)
+colnames(tab) <- c('Point Mean', 'Line Mean', 'Point Variance', 'Vertical Variance', 'Horizontal Variance')
 rownames(tab) <- c('b','d','e')
 tab <- as.table(tab)
 tab
 
-# The only pore in "e".
-e$img_mat[160:175, 255:267]
+
 ```
 
 
