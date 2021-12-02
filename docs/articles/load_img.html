@@ -90,10 +90,7 @@
 </h3>
 <p>In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.</p>
 <p>Rules of the line estimator: - One must always assign two points to one air bubble. - If one misses a point, then assign a new point on top (it is not possible to remove points). - Always make sure lines are completed before using the estimates. - Alternate between completing horisontal and vertical lines to reduce potential bias and obtain a better estimate.</p>
-<p>Let’s try finding some points in a sponge</p>
-<div class="sourceCode" id="section-cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/line_estimator_app.html">line_estimator_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><iframe data-deferred-src="appb966dfa297d55b05f6dd2b96e0c45216/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
+<p>Let’s try finding some points in a sponge. Follow the link, to see how the <a href="https://johanlassen.shinyapps.io/lineestimator/" class="external-link">line estimator</a> works.</p>
 </div>
 </div>
 <div class="section level2">
@@ -109,7 +106,7 @@
 <h4 id="section-example-a-">Example A.<a class="anchor" aria-label="anchor" href="#section-example-a-"></a>
 </h4>
 <p>First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the 1s and 0s represent whether the area is ‘filled’ by sponge or not respectively. In reference to the plot, the 1s represent the white area and the 0s the black one.<br> After using the generated matrix (‘a$matrix’), we start from pixel/entry (x=)400 and create (lx=)5 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)100 and create (ly=)10 points/lines.</p>
-<div class="sourceCode" id="section-cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="section-cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Loading the image.</span>
 
 <span class="co"># To use a PNG/JPEG/BMP image stored on your computer try:</span>
@@ -118,8 +115,8 @@
 
 <span class="co"># Applying bw_mat().</span>
 <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<div class="sourceCode" id="section-cb4"><pre class="downlit sourceCode r">
+<p><img src="load_img_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<div class="sourceCode" id="section-cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>
 <span class="co">#&gt; List of 2</span>
 <span class="co">#&gt;  $ img_mat: 'bw_img' num [1:1899, 1:1266] 0 0 0 0 0 0 0 0 0 0 ...</span>
@@ -140,20 +137,20 @@
 <h4 id="section-example-b-">Example B.<a class="anchor" aria-label="anchor" href="#section-example-b-"></a>
 </h4>
 <p>In this example, we focus our attention on the threshold. We present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively) to highlight the fact that luminosity of the image plays an important part. Then, we observe the difference of estimators for the same grid.</p>
-<div class="sourceCode" id="section-cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="section-cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Loading the image.</span>
 <span class="va">path2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/smallsponge.jpg'</span>,package<span class="op">=</span><span class="st">'Stereology'</span><span class="op">)</span>
 
 <span class="co"># Applying bw_mat().</span>
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div class="sourceCode" id="section-cb6"><pre class="downlit sourceCode r">
+<p><img src="load_img_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="sourceCode" id="section-cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.65</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
-<div class="sourceCode" id="section-cb7"><pre class="downlit sourceCode r">
+<p><img src="load_img_files/figure-html/unnamed-chunk-3-2.png" width="700"></p>
+<div class="sourceCode" id="section-cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.55</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-4-3.png" width="700"></p>
-<div class="sourceCode" id="section-cb8"><pre class="downlit sourceCode r">
+<p><img src="load_img_files/figure-html/unnamed-chunk-3-3.png" width="700"></p>
+<div class="sourceCode" id="section-cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Image dimensions</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">b</span><span class="op">$</span><span class="va">img_mat</span><span class="op">)</span>

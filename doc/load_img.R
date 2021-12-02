@@ -8,9 +8,6 @@ knitr::opts_chunk$set(
 library(Stereology)
 
 ## -----------------------------------------------------------------------------
-line_estimator_app()
-
-## -----------------------------------------------------------------------------
 # Loading the image.
 
 # To use a PNG/JPEG/BMP image stored on your computer try:
