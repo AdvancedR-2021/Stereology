@@ -1,4 +1,5 @@
 url: ~
 template:
   bootswatch: yeti
+  bootstrap: 5
 
