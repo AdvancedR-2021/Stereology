@@ -81,10 +81,15 @@ a <- bw_mat(path)
 str(a)
 
 # Applying th_i_ests().
-est_a <- th_i_ests(mtr = a$img_mat, x = 400, y = 100, lx= 5, ly = 10)
+est_a <- th_i_ests(mtr = a$img_mat, x = 700, y = 500, lx= 18, ly = 12)
 
 # Print all different outputs.
 est_a
+
+# Comparison with the mean and variance using all pixels.
+#v_a <- as.vector(t(a$img_mat))
+#mean(v_a)
+#var(v_a)
 
 ```
 
