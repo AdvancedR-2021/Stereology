@@ -84,8 +84,8 @@ th_i_ests <- function (mtr, x, y, lx, ly) {
 
 
   #loop
-  for (i in 1:dx) {
-    for (j in 1:dy) {
+  for (i in x:(x+dx)) {
+    for (j in y:(y+dy)) {
       #point
       p_m <- mtr[seq(i, nrow(mtr), dx), seq(j, ncol(mtr), dy)]
       pnt_v[s] <- sum(rowSums(p_m))/(nrow(p_m)*ncol(p_m))
