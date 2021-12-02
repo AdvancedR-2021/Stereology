@@ -1,5 +1,5 @@
 url: ~
 template:
-    bootswatch: morph
+  bootswatch: morph
   bootstrap: 5
 
