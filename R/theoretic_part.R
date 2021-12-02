@@ -30,7 +30,9 @@ bw_mat <- function(image_path, thr = .5) {
   t_gim <- g_im >thr
   mat <- t_gim %>%
     as.matrix()
-  mat[mat==TRUE] = 1
+  mat[mat == FALSE] <- 2
+  mat[mat == 1] <- 0
+  mat[mat == 2] <- 1
   class(mat) <- c("bw_img", "matrix", "array")
   im_l <- list(img_mat = mat,
                bw_img = plot(t_gim))
