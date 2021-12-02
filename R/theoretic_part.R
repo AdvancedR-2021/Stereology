@@ -61,20 +61,63 @@ th_i_ests <- function (mtr, x, y, lx, ly) {
   if (lx > nrow(mtr) || lx <= 0) stop("Incorrect amount of horizontal indices.")
   if (ly > ncol(mtr) || ly <= 0) stop("Incorrect amount of vertical indices.")
 
+  dx <- floor(nrow(mtr)/lx)
+  dy <- floor(ncol(mtr)/ly)
+
   # point estimator
-  p_mat <- mtr[seq(x, nrow(mtr), floor(nrow(mtr)/lx)), seq(y, ncol(mtr), floor(ncol(mtr)/ly))]
+  p_mat <- mtr[seq(x, nrow(mtr), dx), seq(y, ncol(mtr), dy)]
   p_mean <- sum(rowSums(p_mat))/(nrow(p_mat)*ncol(p_mat))
 
   # line estimator
-  lmh <- mtr[seq(x, nrow(mtr), floor(nrow(mtr)/lx)), ]
-  lmv <- mtr[, seq(y, ncol(mtr), floor(ncol(mtr)/ly))]
+  lmh <- mtr[seq(x, nrow(mtr), dx), ]
+  lmv <- mtr[, seq(y, ncol(mtr), dy)]
   s_h <- rowSums(lmh)
   s_v <- colSums(lmv)
   l_mean <- (sum(s_h)+sum(s_v))/((nrow(lmh)*ncol(lmh))+(nrow(lmv)*ncol(lmv)))
 
+
+  #vectors
+  s <- 1
+  pnt_v <- vector("numeric", dx*dy)
+  ln_v <- vector("numeric", dx*dy)
+  ln_h <- vector("numeric", dx*dy)
+
+
+  #loop
+  for (i in 1:dx) {
+    for (j in 1:dy) {
+      #point
+      p_m <- mtr[seq(i, nrow(mtr), dx), seq(j, ncol(mtr), dy)]
+      pnt_v[s] <- sum(rowSums(p_m))/(nrow(p_m)*ncol(p_m))
+
+      #line
+      ## horizontal
+      vr_lmh <- mtr[seq(i, nrow(mtr), dx), ]
+      ln_h[s] <- sum(rowSums(vr_lmh))/(nrow(vr_lmh)*ncol(vr_lmh))
+      ## vertical
+      vr_lmv <- mtr[, seq(j, ncol(mtr), dy)]
+      ln_v[s] <- sum(rowSums(vr_lmv))/(nrow(vr_lmv)*ncol(vr_lmv))
+
+      #adjust index
+      s <- s+1
+
+    }
+  }
+
+  #variance
+  pnt_var <- var(pnt_v)
+  lv_var <- var(ln_v)
+  lh_var <- var(ln_h)
+  comb_var <- lv_var + lh_var
+
   # list of outputs
   r_list <- list(point_mean = p_mean,
-                 line_mean = l_mean)
+                 line_mean = l_mean,
+                 point_var = pnt_var,
+                 v_lines_var = lv_var,
+                 h_lines_var = lh_var,
+                 sum_lines_var = comb_var)
+
   return(r_list)
 
 }
