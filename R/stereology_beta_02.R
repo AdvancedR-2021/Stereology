@@ -43,7 +43,6 @@ get_metric <- function(object) {
              result <<- NULL,
              result <<- list("se" = se, "p"=p)
              )
-      print(result)
     } else{
       result <<- NULL
     }
@@ -108,7 +107,6 @@ line_estimator_app <- function(
       output$metric <- shiny::renderText({
         input$porosity
         r <- load_metric()
-        print(r)
         if (is.null(r)) {"Complete at least one vertical line and one horisontal line, OR complete the current pair of points"} else {
           paste("Porosity:", r$p, "\n","  SE:",r$se)
         }
