@@ -51,6 +51,10 @@ bw_mat <- function(image_path, thr = .5) {
 #' @return The function 'th_i_est()' returns a list containing: \cr
 #'   1) point_mean: the mean of black pixels for the point grid method, and \cr
 #'   2) line_mean: the mean of black pixels for the line grid method.
+#'   3) point_var: the variance of black pixels for the point grid method.
+#'   4) v_lines_var: the variance of black pixels using only the vertical lines of the grid.
+#'   5) h_lines_var: the variance of black pixels using only the horizontal lines of the grid.
+#'   6) sum_lines_var: the sum of the variance of of both horizontal and vertical lines of the grid. There is dependence between "vertical variance" and "horizontal variance", so this output is only useful for counterexamples.
 #'
 #' @export
 
