@@ -66,7 +66,7 @@ Below, there are two examples of the functions 'bw_mat()' and 'th_i_est()' being
 
 #### Example A.
 
-First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the  1s and 0s represent whether the area is 'filled' by sponge or not respectively. In reference to the plot, the 1s represent the white area and the 0s the black one.<br/>
+First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the  0s and 1s represent whether the area is 'filled' by sponge or not respectively. In reference to the plot, the 0s represent the white area and the 1s the black one.<br/>
 After using the generated matrix ('a$matrix'), we start from pixel/entry (x=)400 and create (lx=)5 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)100 and create (ly=)10 points/lines.
 
 ```{r}
