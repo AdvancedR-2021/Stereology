@@ -25,21 +25,23 @@ library(Stereology)
 In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could fx. be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation).
 
 Given the example of the porososity of the sponge - i.e., the volume of air bubbles divided by the total volume -  we could use two approaches to estimate it:
-(1) We can use a point estimator, where points arranged in a grid are plotted on top of the image. Then we count the proportion of points which are positioned inside the air bubbles and use that as estimator of the porosity. 
-(2) We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two "clicks" per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point.
+
+* We can use a point estimator, where points arranged in a grid are plotted on top of the image. Then we count the proportion of points which are positioned inside the air bubbles and use that as estimator of the porosity. 
+
+* We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two "clicks" per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point.
 
 
 ### Line estimator
 
 In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.
 
-Rules of the line estimator:
-- One must always assign two points to one air bubble.
-- If one misses a point, then assign a new point on top (it is not possible to remove points).
-- Always make sure lines are completed before using the estimates.
-- Alternate between completing horisontal and vertical lines to reduce potential bias and obtain a better estimate.
+* Rules of the line estimator:
+  + One must always assign two points to one air bubble.
+  + If one misses a point, then assign a new point on top (it is not possible to remove points).
+  + Always make sure lines are completed before using the estimates.
+  + Alternate between horisontal and vertical lines to reduce potential bias and obtain a better estimate.
 
-Let's try finding some points in a sponge. Follow the link, to see how the [line estimator](https://johanlassen.shinyapps.io/lineestimator/) works.
+Let's try finding some points in a sponge. **Follow the link, to see how the [line estimator](https://johanlassen.shinyapps.io/lineestimator/) works.**
 
 
 

@@ -122,7 +122,9 @@ line_estimator_app <- function(
 
       output$plot <- shiny::renderPlot({
         p+plot_data()
-      })
+      },
+      width = 4,
+      height = 4)
 
       # When the Submit button is clicked, save the form data
       shiny::observeEvent(input$click, {
