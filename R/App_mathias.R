@@ -117,12 +117,12 @@ server <- function(input, output, session){
   #Load image
   img <- shiny::reactive({
 
-    default <-system.file("extdata", "sponge3.jpg", package = "Stereology")
+    default <-system.file("extdata", "smallsponge.jpg", package = "Stereology")
 
     path_df <- input$image # dataframe with input. col "datapath" contains path to file
 
 
-    import <- if(!is.data.frame(input$image)){imager::load.image(system.file("extdata", "sponge3.jpg", package = "Stereology"))
+    import <- if(!is.data.frame(input$image)){imager::load.image(system.file("extdata", "smallsponge.jpg", package = "Stereology"))
     } else {imager::load.image(path_df$datapath)}
 
     as.raster(import)
