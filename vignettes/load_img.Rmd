@@ -45,6 +45,20 @@ line_estimator_app()
 ```
 
 
+### Point estimator
+
+Properties such as porosity or cross sectional area can also be estimated by imposing a grid of points on an image of the object of interest. The property is computed from the fraction of points that lie within the relevant areas. An application that lets you do this is also included in this package and can be launched by calling
+```{r}
+point_estimator_app()
+```
+
+It can also be accessed online [here](https://appasimento.shinyapps.io/Web_app/?_ga=2.24366394.1680202408.1638985039-1418335429.1637842811)
+An image is uploaded by clicking "browse" and then selecting the file. When "update" is clicked the selected image will appear with a grid superimposed on it. Then relevant points are selected by clicking on them and when all the relevant points have been selected "estimate" is clicked. Now the fraction of selected points appears. All the selected points can be viewed in the "points" tab. 
+
+
+
+
+
 ## Theoretic exploration of an image.
 
 The functions 'bw_mat()' and 'th_i_est()' are meant to be used to give the user theoretic estimators based on an image.  <br/>
