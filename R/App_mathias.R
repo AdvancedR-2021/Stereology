@@ -10,16 +10,16 @@
 #'  sponge. When you have pressed all relevant points click on "estimate" button
 #'  to get the result. \cr
 #'  Depends on the following packages: \cr
-#'  shiny, shinythemes,plotly,tidyverse,EBImage
+#'  shiny, shinythemes,plotly,ggplot2,dplyr,readr
 #'
 #'
 #'
-#' @import tidyverse
 #' @import shiny
 #' @import shinythemes
 #' @import plotly
-#' @import tidyverse
-#' @importFrom EBImage readImage
+#' @import ggplot2
+#' @importFrom imager load.image
+#' @import dplyr
 #'
 #' @return Launches app
 #'
@@ -78,6 +78,9 @@ ui <- shiny::fluidPage(
   # Add text with estimate
   shiny::textOutput("P_p"),
 
+  # Reset count
+  #shiny::actionButton("reset","Reset count")
+
   # Add actionbutton to remove currently selected point
   # actionButton("undo","Unselect point")
 
@@ -115,23 +118,24 @@ server <- function(input, output, session){
   # Assign plot to output
 
   #Load image
-  img <- shiny::reactive({
+  img <- shiny::eventReactive(input$run,{
 
-    default <-system.file("extdata", "sponge3.jpg", package = "Stereology")
+    default <-system.file("extdata", "smallsponge.jpg", package = "Stereology")
 
     path_df <- input$image # dataframe with input. col "datapath" contains path to file
 
 
-    if(!is.data.frame(input$image)){EBImage::readImage(system.file("extdata", "sponge3.jpg", package = "Stereology"))
-      } else {EBImage::readImage(path_df$datapath)}
+    import <- if(!is.data.frame(input$image)){imager::load.image(system.file("extdata", "smallsponge.jpg", package = "Stereology"))
+    } else {imager::load.image(path_df$datapath)}
 
+    as.raster(import)
 
 
   })
 
   # Create grid of points
 
-  grid <- shiny::eventReactive(input$run,{
+  grid <- shiny::reactive({
     y_values <- seq(0.1*dim(img())[1],dim(img())[1]-0.1*dim(img())[1],length.out=input$nx_points)
     x_values <- seq(0.1*dim(img())[2],dim(img())[2]-0.1*dim(img())[2],length.out=input$ny_points)
     xy_grid <- tidyr::expand_grid(x=x_values,y=y_values)
@@ -141,7 +145,7 @@ server <- function(input, output, session){
 
   # Create plotly object of image
 
-  plotly_img <- shiny::reactive({plotly::plot_ly(type="image",z=255*img())})
+  plotly_img <- shiny::reactive({plotly::add_image(plot_ly(type="image"),z=img())})
 
 
   output$plot<-plotly::renderPlotly({
@@ -186,8 +190,9 @@ table_points <- shiny::reactive({
 
 output$npoints <- shiny::renderText({
 
-  k <- table_points()
-  paste("Number of points selected:",k)
+
+  if (is.null(point()[])) paste("0 points selected") else  paste("Number of points selected:",table_points())
+
   })
 
 
@@ -216,14 +221,21 @@ output$P_p <- shiny::renderText({
 
 ## Create table with all data about all selected points in seperate tab
 
-output$table <- shiny::renderTable({
+output$table <- shiny::bindEvent(shiny::renderTable({
 
   table <- as.data.frame(df)
   colnames(table) <- c("Point_ID","x","y")
   table[-1,]
 
 
-  })
+  }),
+
+  point()
+)
+
+
+
+
 
 ## Function to remove selected points
 
@@ -248,7 +260,7 @@ shiny::shinyApp(ui = ui, server = server)
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
 # reduce filesize
-#
+# make function to reset number of points and dataframe
 
 
 
