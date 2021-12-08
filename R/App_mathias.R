@@ -115,7 +115,7 @@ server <- function(input, output, session){
   # Assign plot to output
 
   #Load image
-  img <- shiny::reactive({
+  img <- shiny::eventReactive(input$run,{
 
     default <-system.file("extdata", "smallsponge.jpg", package = "Stereology")
 
@@ -132,7 +132,7 @@ server <- function(input, output, session){
 
   # Create grid of points
 
-  grid <- shiny::eventReactive(input$run,{
+  grid <- shiny::reactive({
     y_values <- seq(0.1*dim(img())[1],dim(img())[1]-0.1*dim(img())[1],length.out=input$nx_points)
     x_values <- seq(0.1*dim(img())[2],dim(img())[2]-0.1*dim(img())[2],length.out=input$ny_points)
     xy_grid <- tidyr::expand_grid(x=x_values,y=y_values)
@@ -187,8 +187,9 @@ table_points <- shiny::reactive({
 
 output$npoints <- shiny::renderText({
 
-  k <- table_points()
-  paste("Number of points selected:",k)
+
+  if (is.null(point()[])) paste("0 points selected") else  paste("Number of points selected:",table_points())
+
   })
 
 
