@@ -79,7 +79,7 @@ ui <- shiny::fluidPage(
   shiny::textOutput("P_p"),
 
   # Reset count
-  shiny::actionButton("reset","Reset count")
+  #shiny::actionButton("reset","Reset count")
 
   # Add actionbutton to remove currently selected point
   # actionButton("undo","Unselect point")
