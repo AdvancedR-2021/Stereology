@@ -78,6 +78,9 @@ ui <- shiny::fluidPage(
   # Add text with estimate
   shiny::textOutput("P_p"),
 
+  # Reset count
+  shiny::actionButton("reset","Reset count")
+
   # Add actionbutton to remove currently selected point
   # actionButton("undo","Unselect point")
 
@@ -218,14 +221,21 @@ output$P_p <- shiny::renderText({
 
 ## Create table with all data about all selected points in seperate tab
 
-output$table <- shiny::renderTable({
+output$table <- shiny::bindEvent(shiny::renderTable({
 
   table <- as.data.frame(df)
   colnames(table) <- c("Point_ID","x","y")
   table[-1,]
 
 
-  })
+  }),
+
+  point()
+)
+
+
+
+
 
 ## Function to remove selected points
 
@@ -250,7 +260,7 @@ shiny::shinyApp(ui = ui, server = server)
 ## EXTRA FEATURES THAT CAN BE ADDED
 # Create actionbutton to remove currently selected point
 # reduce filesize
-#
+# make function to reset number of points and dataframe
 
 
 
