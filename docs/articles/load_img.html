@@ -76,9 +76,10 @@
 <li><p>We can use a point estimator, where points arranged in a grid are plotted on top of the image. Then we count the proportion of points which are positioned inside the air bubbles and use that as estimator of the porosity.</p></li>
 <li><p>We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two “clicks” per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point. <br><br></p></li>
 </ul>
-<div class="section level3">
-<h3 id="section-line-estimator">Line estimator<a class="anchor" aria-label="anchor" href="#section-line-estimator"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="section-line-estimator">Line estimator<a class="anchor" aria-label="anchor" href="#section-line-estimator"></a>
+</h2>
 <p><br> In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.</p>
 <ul>
 <li>Rules of the line estimator:
@@ -92,16 +93,15 @@
 </ul>
 <p>Let’s try finding some points in a sponge. <strong>Follow the link, to see how the <a href="https://johanlassen.shinyapps.io/lineestimator/" class="external-link">line estimator</a> works.</strong> <br><br></p>
 </div>
-<div class="section level3">
-<h3 id="section-point-estimator">Point estimator<a class="anchor" aria-label="anchor" href="#section-point-estimator"></a>
-</h3>
+<div class="section level2">
+<h2 id="section-point-estimator">Point estimator<a class="anchor" aria-label="anchor" href="#section-point-estimator"></a>
+</h2>
 <p><br> Properties such as porosity or cross sectional area can also be estimated by imposing a grid of points on an image of the object of interest. The property is computed from the fraction of points that lie within the relevant areas. An application that lets you do this is also included in this package and can be launched by calling</p>
 <div class="sourceCode" id="section-cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/point_estimator_app.html">point_estimator_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><iframe data-deferred-src="app03f16b1de1ac581ab257fa60ffec4759/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
+<p><iframe data-deferred-src="app82247dab71e7787125c3f086a8d31605/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
 <p>It can also be accessed online <a href="https://appasimento.shinyapps.io/Web_app/?_ga=2.24366394.1680202408.1638985039-1418335429.1637842811" class="external-link">here</a> An image is uploaded by clicking “browse” and then selecting the file. When “update” is clicked the selected image will appear with a grid superimposed on it. Then relevant points are selected by clicking on them and when all the relevant points have been selected “estimate” is clicked. Now the fraction of selected points appears. All the selected points can be viewed in the “points” tab.</p>
 <p><br><br></p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="section-theoretic-exploration-of-an-image-">Theoretic exploration of an image.<a class="anchor" aria-label="anchor" href="#section-theoretic-exploration-of-an-image-"></a>
