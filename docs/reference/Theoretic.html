@@ -10,7 +10,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">Stereology</a>
 
@@ -80,7 +80,11 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The function 'bw_mat()' returns a list containing: <br>  1) the matrix that represents the black and white version of the image that
   was used as input, and <br>  2) the plot of the black and white version of the image.
-The function 'th_i_est()' returns a list containing: <br>  1) point_mean: the mean of black pixels for the point grid method, and <br>  2) line_mean: the mean of black pixels for the line grid method.</p>
+The function 'th_i_est()' returns a list containing: <br>  1) point_mean: the mean of black pixels for the point grid method, and <br>  2) line_mean: the mean of black pixels for the line grid method.
+  3) point_var: the variance of black pixels for the point grid method.
+  4) v_lines_var: the variance of black pixels using only the vertical lines of the grid.
+  5) h_lines_var: the variance of black pixels using only the horizontal lines of the grid.
+  6) sum_lines_var: the sum of the variance of of both horizontal and vertical lines of the grid. There is dependence between "vertical variance" and "horizontal variance", so this output is only useful for counterexamples.</p>
     </div>
 
     <div class="section level2">
@@ -96,13 +100,25 @@ The function 'th_i_est()' returns a list containing: <br>  1) point_mean: the me
 <span class="r-plt img"><img src="Theoretic-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Applying th_i_ests()</span></span>
-<span class="r-in"><span class="va">est_a</span> <span class="op">&lt;-</span> <span class="fu">th_i_ests</span><span class="op">(</span>mtr <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">img_mat</span>, x <span class="op">=</span> <span class="fl">400</span>, y <span class="op">=</span> <span class="fl">100</span>, lx<span class="op">=</span> <span class="fl">5</span>, ly <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">est_a</span> <span class="op">&lt;-</span> <span class="fu">th_i_ests</span><span class="op">(</span>mtr <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">img_mat</span>, x <span class="op">=</span> <span class="fl">700</span>, y <span class="op">=</span> <span class="fl">500</span>, lx<span class="op">=</span> <span class="fl">18</span>, ly <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">est_a</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $point_mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.375</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $line_mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7010061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3197077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $point_var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002055961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $v_lines_var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000346328</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $h_lines_var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0003616901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sum_lines_var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0007080181</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># For more details use: browseVignettes(package = "Stereology").</span></span>
@@ -113,7 +129,7 @@ The function 'th_i_est()' returns a list containing: <br>  1) point_mean: the me
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Johan Lassen.</p>
+  <p></p><p>Developed by Nikoleta Kakoulidou, Mathias Christensen, Johan Lassen.</p>
 </div>
 
 <div class="pkgdown-footer-right">

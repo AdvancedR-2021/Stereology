@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, include = FALSE}
 library(Stereology)
 ```
 
@@ -31,7 +31,8 @@ Given the example of the porososity of the sponge - i.e., the volume of air bubb
 * We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two "clicks" per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point.
 <br/>
 <br/>
-### Line estimator
+
+## Line estimator
 <br/>
 In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.
 
@@ -45,7 +46,7 @@ Let's try finding some points in a sponge. **Follow the link, to see how the [li
 <br/>
 <br/>
 
-### Point estimator
+## Point estimator
 <br/>
 Properties such as porosity or cross sectional area can also be estimated by imposing a grid of points on an image of the object of interest. The property is computed from the fraction of points that lie within the relevant areas. An application that lets you do this is also included in this package and can be launched by calling
 ```{r}
@@ -75,15 +76,17 @@ The function then outputs a list containing the estimators. <br/>
 
 <br/>
 <br/>
+
 ### Examples of theoretical exploration of images.
 <br/>
 Below, there are two examples of the functions 'bw_mat()' and 'th_i_est()' being used. <br/>
 <br/>
 <br/>
+
 #### Example A.
 <br/>
 First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the  0s and 1s represent whether the area is 'filled' by sponge or not respectively. In reference to the plot, the 0s represent the white area and the 1s the black one.<br/>
-After using the generated matrix ('a$matrix'), we start from pixel/entry (x=)400 and create (lx=)5 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)100 and create (ly=)10 points/lines.
+After using the generated matrix ('a$matrix'), we start from pixel/entry (x=)700 and create (lx=)18 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)500 and create (ly=)12 points/lines.
 
 ```{r}
 # Loading the image.
@@ -105,6 +108,7 @@ est_a
 ```
 <br/>
 <br/>
+
 #### Example B.
 <br/>
 In this example, we focus our attention on the threshold.

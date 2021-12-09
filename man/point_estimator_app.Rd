@@ -20,5 +20,5 @@ Running this function launches an interactive app that allows
  sponge. When you have pressed all relevant points click on "estimate" button
  to get the result. \cr
  Depends on the following packages: \cr
- shiny, shinythemes,plotly,tidyverse,EBImage
+ shiny, shinythemes,plotly,ggplot2,dplyr,readr
 }
