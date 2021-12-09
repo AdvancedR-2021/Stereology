@@ -2,7 +2,14 @@ Package: Stereology
 Type: Package
 Title: Porosity estimation
 Version: 0.1.0
-Author: Nikoleta Kakoulidou, Mathias Molbech Christensen, Johan Lassen
+Authors@R: c(
+    person("Nikoleta", "Kakoulidou", , "hadley@rstudio.com", role = c("aut", "cre")
+    ),
+    person("Mathias", "Christensen", role = c("aut", "cre")
+    ),
+    person("Johan", "Lassen", role = c("aut", "cre")
+    )
+  )
 Maintainer: Johan Lassen <johan.lassen@birc.au.dk>
 Description: In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could fx. be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation). This package has two estimators, the line estimator and the point estimator, which interactively are used in shinyR to obtain the porosity estimate of the data.
 License: GPL-3
