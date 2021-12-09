@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">Stereology</a>
 
@@ -67,21 +67,19 @@
 
     
     
-<div class="sourceCode" id="section-cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Stereology</span><span class="op">)</span></code></pre></div>
 <div class="section level2">
 <h2 id="section-stereology">Stereology<a class="anchor" aria-label="anchor" href="#section-stereology"></a>
 </h2>
-<p>In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could fx. be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation).</p>
+<p><br> In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could fx. be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation).</p>
 <p>Given the example of the porososity of the sponge - i.e., the volume of air bubbles divided by the total volume - we could use two approaches to estimate it:</p>
 <ul>
 <li><p>We can use a point estimator, where points arranged in a grid are plotted on top of the image. Then we count the proportion of points which are positioned inside the air bubbles and use that as estimator of the porosity.</p></li>
-<li><p>We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two “clicks” per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point.</p></li>
+<li><p>We can use a line estimator, where grid lines are plotted on top of the image. Here we calculated the proportion of the length of the grid lines which is covered by bubbles. This estimator takes two “clicks” per bubble in contrast to the point grid estimator, where the user instead clicks once per grid point. <br><br></p></li>
 </ul>
 <div class="section level3">
 <h3 id="section-line-estimator">Line estimator<a class="anchor" aria-label="anchor" href="#section-line-estimator"></a>
 </h3>
-<p>In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.</p>
+<p><br> In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.</p>
 <ul>
 <li>Rules of the line estimator:
 <ul>
@@ -92,22 +90,33 @@
 </ul>
 </li>
 </ul>
-<p>Let’s try finding some points in a sponge. <strong>Follow the link, to see how the <a href="https://johanlassen.shinyapps.io/lineestimator/" class="external-link">line estimator</a> works.</strong></p>
+<p>Let’s try finding some points in a sponge. <strong>Follow the link, to see how the <a href="https://johanlassen.shinyapps.io/lineestimator/" class="external-link">line estimator</a> works.</strong> <br><br></p>
+</div>
+<div class="section level3">
+<h3 id="section-point-estimator">Point estimator<a class="anchor" aria-label="anchor" href="#section-point-estimator"></a>
+</h3>
+<p><br> Properties such as porosity or cross sectional area can also be estimated by imposing a grid of points on an image of the object of interest. The property is computed from the fraction of points that lie within the relevant areas. An application that lets you do this is also included in this package and can be launched by calling</p>
+<div class="sourceCode" id="section-cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/point_estimator_app.html">point_estimator_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><iframe data-deferred-src="app03f16b1de1ac581ab257fa60ffec4759/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
+<p>It can also be accessed online <a href="https://appasimento.shinyapps.io/Web_app/?_ga=2.24366394.1680202408.1638985039-1418335429.1637842811" class="external-link">here</a> An image is uploaded by clicking “browse” and then selecting the file. When “update” is clicked the selected image will appear with a grid superimposed on it. Then relevant points are selected by clicking on them and when all the relevant points have been selected “estimate” is clicked. Now the fraction of selected points appears. All the selected points can be viewed in the “points” tab.</p>
+<p><br><br></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="section-theoretic-exploration-of-an-image-">Theoretic exploration of an image.<a class="anchor" aria-label="anchor" href="#section-theoretic-exploration-of-an-image-"></a>
 </h2>
-<p>The functions ‘bw_mat()’ and ‘th_i_est()’ are meant to be used to give the user theoretic estimators based on an image. <br> The function ‘bw_mat()’ takes two arguments the path where the image is stored and the threshold used for binary conversion. It returns a list with 2 elements. The first one is a matrix of 1s and 0s, which is generated by the given image. The second one is a plot of the black and white image, in order for the user to check if adjustments to the threshold are needed. <br><br> The function ‘th_i_est()’ provides with estimates about the white portions of the image provided both 2 types of grid, the point grid and the line grid. It takes 5 arguments: <br> - mtr: a matrix generated using the function ‘bw_mat()’. - x: the index of the pixel-row to start the grid, - y: the index of the pixel-column to start the grid, - lx: The amount of horizontal indices to be used, and - ly: The amount of vertical indices to be used. <br></p>
+<p><br> The functions ‘bw_mat()’ and ‘th_i_est()’ are meant to be used to give the user theoretic estimators based on an image. <br> The function ‘bw_mat()’ takes two arguments the path where the image is stored and the threshold used for binary conversion. It returns a list with 2 elements. The first one is a matrix of 1s and 0s, which is generated by the given image. The second one is a plot of the black and white image, in order for the user to check if adjustments to the threshold are needed. <br><br> The function ‘th_i_est()’ provides with estimates about the white portions of the image provided both 2 types of grid, the point grid and the line grid. It takes 5 arguments: <br> - mtr: a matrix generated using the function ‘bw_mat()’. - x: the index of the pixel-row to start the grid, - y: the index of the pixel-column to start the grid, - lx: The amount of horizontal indices to be used, and - ly: The amount of vertical indices to be used. <br></p>
 <p>The function then outputs a list containing the estimators. <br></p>
+<p><br><br></p>
 <div class="section level3">
 <h3 id="section-examples-of-theoretical-exploration-of-images-">Examples of theoretical exploration of images.<a class="anchor" aria-label="anchor" href="#section-examples-of-theoretical-exploration-of-images-"></a>
 </h3>
-<p>Below, there are two examples of the functions ‘bw_mat()’ and ‘th_i_est()’ being used. <br></p>
+<p><br> Below, there are two examples of the functions ‘bw_mat()’ and ‘th_i_est()’ being used. <br><br><br></p>
 <div class="section level4">
 <h4 id="section-example-a-">Example A.<a class="anchor" aria-label="anchor" href="#section-example-a-"></a>
 </h4>
-<p>First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the 1s and 0s represent whether the area is ‘filled’ by sponge or not respectively. In reference to the plot, the 1s represent the white area and the 0s the black one.<br> After using the generated matrix (‘a$matrix’), we start from pixel/entry (x=)400 and create (lx=)5 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)100 and create (ly=)10 points/lines.</p>
+<p><br> First, the image file to be used is loaded onto R, then the function bw_mat() is used and a 1899 by 1266 matrix is generated. In this case, the 0s and 1s represent whether the area is ‘filled’ by sponge or not respectively. In reference to the plot, the 0s represent the white area and the 1s the black one.<br> After using the generated matrix (‘a$matrix’), we start from pixel/entry (x=)700 and create (lx=)18 points/lines on the horizontal direction. For the vertical direction, we start from pixel/entry (y=)500 and create (ly=)12 points/lines.</p>
 <div class="sourceCode" id="section-cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Loading the image.</span>
 
@@ -117,46 +126,75 @@
 
 <span class="co"># Applying bw_mat().</span>
 <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="load_img_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <div class="sourceCode" id="section-cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>
 <span class="co">#&gt; List of 2</span>
-<span class="co">#&gt;  $ img_mat: 'bw_img' num [1:1899, 1:1266] 0 0 0 0 0 0 0 0 0 0 ...</span>
+<span class="co">#&gt;  $ img_mat: 'bw_img' num [1:1899, 1:1266] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="co">#&gt;  $ bw_img : 'cimg' num [1:1899, 1:1266, 1, 1] 0 0 0 0 0 0 0 0 0 0 ...</span>
 
 <span class="co"># Applying th_i_ests().</span>
-<span class="va">est_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">th_i_ests</a></span><span class="op">(</span>mtr <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">img_mat</span>, x <span class="op">=</span> <span class="fl">400</span>, y <span class="op">=</span> <span class="fl">100</span>, lx<span class="op">=</span> <span class="fl">5</span>, ly <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+<span class="va">est_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">th_i_ests</a></span><span class="op">(</span>mtr <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">img_mat</span>, x <span class="op">=</span> <span class="fl">700</span>, y <span class="op">=</span> <span class="fl">500</span>, lx<span class="op">=</span> <span class="fl">18</span>, ly <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>
 
 <span class="co"># Print all different outputs.</span>
 <span class="va">est_a</span>
 <span class="co">#&gt; $point_mean</span>
-<span class="co">#&gt; [1] 0.875</span>
+<span class="co">#&gt; [1] 0.375</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $line_mean</span>
-<span class="co">#&gt; [1] 0.7010061</span></code></pre></div>
+<span class="co">#&gt; [1] 0.3197077</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $point_var</span>
+<span class="co">#&gt; [1] 0.002055961</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $v_lines_var</span>
+<span class="co">#&gt; [1] 0.000346328</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $h_lines_var</span>
+<span class="co">#&gt; [1] 0.0003616901</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $sum_lines_var</span>
+<span class="co">#&gt; [1] 0.0007080181</span></code></pre></div>
+<p><br><br></p>
 </div>
 <div class="section level4">
 <h4 id="section-example-b-">Example B.<a class="anchor" aria-label="anchor" href="#section-example-b-"></a>
 </h4>
-<p>In this example, we focus our attention on the threshold. We present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively) to highlight the fact that luminosity of the image plays an important part. Then, we observe the difference of estimators for the same grid.</p>
+<p><br> In this example, we focus our attention on the threshold. We present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively) to highlight the fact that luminosity of the image plays an important part. Then, we observe the how different the estimators are in each case.</p>
 <div class="sourceCode" id="section-cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Loading the image.</span>
 <span class="va">path2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/smallsponge.jpg'</span>,package<span class="op">=</span><span class="st">'Stereology'</span><span class="op">)</span>
 
 <span class="co"># Applying bw_mat().</span>
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="load_img_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <div class="sourceCode" id="section-cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.65</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-3-2.png" width="700"></p>
+<p><img src="load_img_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
 <div class="sourceCode" id="section-cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">bw_mat</a></span><span class="op">(</span><span class="va">path2</span>, <span class="fl">0.55</span><span class="op">)</span></code></pre></div>
-<p><img src="load_img_files/figure-html/unnamed-chunk-3-3.png" width="700"></p>
+<p><img src="load_img_files/figure-html/unnamed-chunk-4-3.png" width="700"></p>
 <div class="sourceCode" id="section-cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># Image dimensions</span>
-<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">b</span><span class="op">$</span><span class="va">img_mat</span><span class="op">)</span>
-<span class="co">#&gt; [1] 348 322</span>
+<span class="co"># The only pore in "e".</span>
+<span class="va">e</span><span class="op">$</span><span class="va">img_mat</span><span class="op">[</span><span class="fl">160</span><span class="op">:</span><span class="fl">175</span>, <span class="fl">255</span><span class="op">:</span><span class="fl">267</span><span class="op">]</span>
+<span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]</span>
+<span class="co">#&gt;  [1,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt;  [2,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt;  [3,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt;  [4,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt;  [5,]    0    0    0    0    1    1    1    1    1     1     1     0     0</span>
+<span class="co">#&gt;  [6,]    0    0    0    0    1    1    1    1    1     1     1     0     0</span>
+<span class="co">#&gt;  [7,]    0    0    0    0    1    1    1    1    1     1     1     1     0</span>
+<span class="co">#&gt;  [8,]    0    0    0    1    1    1    1    1    1     1     1     1     0</span>
+<span class="co">#&gt;  [9,]    0    0    0    0    1    1    1    1    1     1     1     1     0</span>
+<span class="co">#&gt; [10,]    0    0    0    0    1    1    1    1    1     1     1     0     0</span>
+<span class="co">#&gt; [11,]    0    0    0    0    1    1    1    1    1     1     1     0     0</span>
+<span class="co">#&gt; [12,]    0    0    0    0    1    1    1    1    1     1     0     0     0</span>
+<span class="co">#&gt; [13,]    0    0    0    0    0    0    1    1    0     0     0     0     0</span>
+<span class="co">#&gt; [14,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt; [15,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
+<span class="co">#&gt; [16,]    0    0    0    0    0    0    0    0    0     0     0     0     0</span>
 
 <span class="co"># Applying th_i_ests().</span>
 <span class="va">est_b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Theoretic.html">th_i_ests</a></span><span class="op">(</span>mtr <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">img_mat</span>, x <span class="op">=</span> <span class="fl">10</span>, y <span class="op">=</span> <span class="fl">20</span>, lx<span class="op">=</span> <span class="fl">5</span>, ly <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
@@ -165,38 +203,22 @@
 
 <span class="co"># Print just mean_p_hat and variance_p_hat.</span>
 
-<span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">est_b</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_b</span><span class="op">$</span><span class="va">line_mean</span>,
-                <span class="va">est_d</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_d</span><span class="op">$</span><span class="va">line_mean</span>,
-                <span class="va">est_e</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_e</span><span class="op">$</span><span class="va">line_mean</span><span class="op">)</span>, 
-              ncol<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Point Mean'</span>, <span class="st">'Line Mean'</span><span class="op">)</span>
+<span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">est_b</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_b</span><span class="op">$</span><span class="va">line_mean</span>, <span class="va">est_b</span><span class="op">$</span><span class="va">point_var</span>, <span class="va">est_b</span><span class="op">$</span><span class="va">v_lines_var</span>, <span class="va">est_b</span><span class="op">$</span><span class="va">h_lines_var</span>,
+                <span class="va">est_d</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_d</span><span class="op">$</span><span class="va">line_mean</span>, <span class="va">est_d</span><span class="op">$</span><span class="va">point_var</span>, <span class="va">est_d</span><span class="op">$</span><span class="va">v_lines_var</span>, <span class="va">est_d</span><span class="op">$</span><span class="va">h_lines_var</span>,
+                <span class="va">est_e</span><span class="op">$</span><span class="va">point_mean</span>, <span class="va">est_e</span><span class="op">$</span><span class="va">line_mean</span>, <span class="va">est_e</span><span class="op">$</span><span class="va">point_var</span>, <span class="va">est_e</span><span class="op">$</span><span class="va">v_lines_var</span>, <span class="va">est_e</span><span class="op">$</span><span class="va">h_lines_var</span><span class="op">)</span>, 
+              ncol<span class="op">=</span><span class="fl">5</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Point Mean'</span>, <span class="st">'Line Mean'</span>, <span class="st">'Point Variance'</span>, <span class="st">'Vertical Variance'</span>, <span class="st">'Horizontal Variance'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'b'</span>,<span class="st">'d'</span>,<span class="st">'e'</span><span class="op">)</span>
 <span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">as.table</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span>
 <span class="va">tab</span>
-<span class="co">#&gt;   Point Mean Line Mean</span>
-<span class="co">#&gt; b  0.8400000 0.8704478</span>
-<span class="co">#&gt; d  0.8800000 0.9695522</span>
-<span class="co">#&gt; e  1.0000000 1.0000000</span>
-
-<span class="co"># The only pore in "e".</span>
-<span class="va">e</span><span class="op">$</span><span class="va">img_mat</span><span class="op">[</span><span class="fl">160</span><span class="op">:</span><span class="fl">175</span>, <span class="fl">255</span><span class="op">:</span><span class="fl">267</span><span class="op">]</span>
-<span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]</span>
-<span class="co">#&gt;  [1,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt;  [2,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt;  [3,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt;  [4,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt;  [5,]    1    1    1    1    0    0    0    0    0     0     0     1     1</span>
-<span class="co">#&gt;  [6,]    1    1    1    1    0    0    0    0    0     0     0     1     1</span>
-<span class="co">#&gt;  [7,]    1    1    1    1    0    0    0    0    0     0     0     0     1</span>
-<span class="co">#&gt;  [8,]    1    1    1    0    0    0    0    0    0     0     0     0     1</span>
-<span class="co">#&gt;  [9,]    1    1    1    1    0    0    0    0    0     0     0     0     1</span>
-<span class="co">#&gt; [10,]    1    1    1    1    0    0    0    0    0     0     0     1     1</span>
-<span class="co">#&gt; [11,]    1    1    1    1    0    0    0    0    0     0     0     1     1</span>
-<span class="co">#&gt; [12,]    1    1    1    1    0    0    0    0    0     0     1     1     1</span>
-<span class="co">#&gt; [13,]    1    1    1    1    1    1    0    0    1     1     1     1     1</span>
-<span class="co">#&gt; [14,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt; [15,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span>
-<span class="co">#&gt; [16,]    1    1    1    1    1    1    1    1    1     1     1     1     1</span></code></pre></div>
+<span class="co">#&gt;     Point Mean    Line Mean Point Variance Vertical Variance</span>
+<span class="co">#&gt; b 1.600000e-01 1.295522e-01   6.084005e-03      6.838884e-04</span>
+<span class="co">#&gt; d 1.200000e-01 3.044776e-02   1.466048e-03      1.550166e-04</span>
+<span class="co">#&gt; e 0.000000e+00 0.000000e+00   3.627153e-05      3.308579e-06</span>
+<span class="co">#&gt;   Horizontal Variance</span>
+<span class="co">#&gt; b        4.902605e-04</span>
+<span class="co">#&gt; d        1.091768e-04</span>
+<span class="co">#&gt; e        2.287593e-06</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -208,7 +230,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Johan Lassen.</p>
+<p>Developed by Nikoleta Kakoulidou, Mathias Christensen, Johan Lassen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
