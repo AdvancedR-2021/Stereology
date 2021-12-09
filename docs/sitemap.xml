@@ -16,9 +16,6 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/Theoretic.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -26,5 +23,8 @@
   </url>
   <url>
     <loc>/reference/point_estimator_app.html</loc>
+  </url>
+  <url>
+    <loc>/reference/Theoretic.html</loc>
   </url>
 </urlset>
