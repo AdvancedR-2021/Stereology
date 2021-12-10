@@ -11,6 +11,8 @@ Document manager: Johan Lassen
 Quality manager: Mathias Christensen
 
 
+Installation.
+====
 To install an R package, start by installing the "devtools" package. The best way to do this is from CRAN, by typing:
 
 install.packages("devtools")
