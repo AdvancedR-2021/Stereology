@@ -2,16 +2,19 @@
 
 
 Purpose: To create a package about stereology.
-=======
+====
 
-Prelimenary goals: To create functions to estimate perimeter and area of objects om images. Furthermore estimate volumes of 3 differents parts of dimensional obejects from 2D images. For example an application could be to estimate cell density in tissues or number of people on an image. 
+Project manager: Nikoleta Kakoulidou
+
+Document manager: Johan Lassen
+
+Quality manager: Mathias Christensen
 
 
-A package about Stereology
+To install an R package, start by installing the "devtools" package. The best way to do this is from CRAN, by typing:
 
-Project manager: Nikoleta
+install.packages("devtools")
 
-Document manager: Johan
+Then, to install the package use:
 
-Quality manager: Mathias
-
+devtools::install_github("AdvancedR-2021/Sterology", build_vignettes = TRUE)
