@@ -3,7 +3,7 @@ title: "Stereology"
 output: rmarkdown::html_vignette
 runtime: shiny
 vignette: >
-  %\VignetteIndexEntry{Load_and_present_img}
+  %\VignetteIndexEntry{Stereology}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,13 +16,14 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include = FALSE}
+library(knitr)
 library(Stereology)
 ```
 
 
 ## Stereology
 <br/>
-In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could fx. be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation).
+In stereology we try to estimate properties - such as volume, count, porosity, and surface area - from images that represent a lower dimension of our element(property) of interest. It could for example be estimating the porosity in a yellow sponge from a 2D image or the number of cells in a given tissue sample (histological investigation).
 
 Given the example of the porososity of the sponge - i.e., the volume of air bubbles divided by the total volume -  we could use two approaches to estimate it:
 
@@ -34,13 +35,13 @@ Given the example of the porososity of the sponge - i.e., the volume of air bubb
 
 ## Line estimator
 <br/>
-In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horisontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialisation of the gridlines a bit less random.
+In the following example we use the line estimator to find the porosity of the sponge. The function line_estimator_app() takes several arguments: object (default = NULL) is an image data frame in long format with columns x, y, and hexacode for color; path is the path to an image, and can be used instead of the object; grid_number decides the vertical lines (horizontal lines are separated by the same distance as the x-axis lines and might differ from the grid_number); and finally seed makes the random initialization of the gridlines a bit less random.
 
 * Rules of the line estimator:
   + One must always assign two points to one air bubble.
   + If one misses a point, then assign a new point on top (it is not possible to remove points).
   + Always make sure lines are completed before using the estimates.
-  + Alternate between horisontal and vertical lines to reduce potential bias and obtain a better estimate.
+  + Alternate between horizontal and vertical lines to reduce potential bias and obtain a better estimate.
 
 Let's try finding some points in a sponge. **Follow the link, to see how the [line estimator](https://johanlassen.shinyapps.io/lineestimator/) works.**
 <br/>
@@ -49,7 +50,7 @@ Let's try finding some points in a sponge. **Follow the link, to see how the [li
 ## Point estimator
 <br/>
 Properties such as porosity or cross sectional area can also be estimated by imposing a grid of points on an image of the object of interest. The property is computed from the fraction of points that lie within the relevant areas. An application that lets you do this is also included in this package and can be launched by calling
-```{r}
+```{r eval=FALSE}
 point_estimator_app()
 ```
 
@@ -111,9 +112,18 @@ est_a
 
 #### Example B.
 <br/>
-In this example, we focus our attention on the threshold.
-We present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively) to highlight the fact that luminosity of the image plays an important part.
-Then, we observe the how different the estimators are in each case.
+In this example, we focus our attention on the threshold. To illustrate this we are using the image below. <br/>
+
+```{r echo=FALSE}
+
+# Loading the image.
+path2 <- system.file('extdata/smallsponge.jpg',package='Stereology')
+im_s <- imager::load.image(path2)
+
+plot(im_s)
+```
+
+Then, we present the image under 3 different thresholds (0.75, 0.65 and 0.55 respectively), to highlight the fact that luminosity of the image plays an important part.
 
 ```{r}
 # Loading the image.
@@ -124,14 +134,19 @@ b <- bw_mat(path2, 0.75)
 d <- bw_mat(path2, 0.65)
 e <- bw_mat(path2, 0.55)
 
-# The only pore in "e".
+# The biggest pore in "e".
 e$img_mat[160:175, 255:267]
 
 # Applying th_i_ests().
 est_b <- th_i_ests(mtr = b$img_mat, x = 10, y = 20, lx= 5, ly = 5)
 est_d <- th_i_ests(mtr = d$img_mat, x = 10, y = 20, lx= 5, ly = 5)
 est_e <- th_i_ests(mtr = e$img_mat, x = 10, y = 20, lx= 5, ly = 5)
+```
 
+
+Finally, we observe the how different the estimators are in each case.
+
+```{r echo=FALSE}
 # Print just mean_p_hat and variance_p_hat.
 
 tab <- matrix(c(est_b$point_mean, est_b$line_mean, est_b$point_var, est_b$v_lines_var, est_b$h_lines_var,
@@ -141,7 +156,7 @@ tab <- matrix(c(est_b$point_mean, est_b$line_mean, est_b$point_var, est_b$v_line
 colnames(tab) <- c('Point Mean', 'Line Mean', 'Point Variance', 'Vertical Variance', 'Horizontal Variance')
 rownames(tab) <- c('b','d','e')
 tab <- as.table(tab)
-tab
+kable(tab)
 
 
 ```
