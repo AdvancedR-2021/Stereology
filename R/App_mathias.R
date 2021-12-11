@@ -16,7 +16,7 @@
 #'
 #' @import shiny
 #' @import shinythemes
-#' @import plotly
+#' @importFrom plotly plotlyOutput add_image renderPlotly add_markers event_data
 #' @import ggplot2
 #' @importFrom imager load.image
 #' @import dplyr
